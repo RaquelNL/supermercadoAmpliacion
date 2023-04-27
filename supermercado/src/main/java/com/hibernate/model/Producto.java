@@ -1,0 +1,83 @@
+package com.hibernate.model;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+
+@Entity
+@Table(name="producto")
+public class Producto {
+
+	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
+	@Column(name="id")
+	private int codprod;
+	
+	@Column(name="nombre")
+	private String nomProd;
+	
+	@Column(name="precio")
+	private double precio;
+	
+	@Column(name="stock")
+	private int stock;
+	
+	@Column(name="categoria_id")
+	private String categoria;
+	
+	public Producto() {
+		
+	}
+	
+	public Producto(String nomProd, double precio, int stock, String categoria) {
+		super();
+		this.nomProd = nomProd;
+		this.precio = precio;
+		this.stock = stock;
+		this.categoria = categoria;
+	}
+
+	public int getCodprod() {
+		return codprod;
+	}
+
+	public void setCodprod(int codprod) {
+		this.codprod = codprod;
+	}
+
+	public String getNomProd() {
+		return nomProd;
+	}
+
+	public void setNomProd(String nomProd) {
+		this.nomProd = nomProd;
+	}
+
+	public double getPrecio() {
+		return precio;
+	}
+
+	public void setPrecio(double precio) {
+		this.precio = precio;
+	}
+
+	public int getStock() {
+		return stock;
+	}
+
+	public void setStock(int stock) {
+		this.stock = stock;
+	}
+
+	public String getCategoria() {
+		return categoria;
+	}
+
+	public void setCategoria(String categoria) {
+		this.categoria = categoria;
+	}
+
+}
