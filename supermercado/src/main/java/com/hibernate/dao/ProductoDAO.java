@@ -93,7 +93,7 @@ public class ProductoDAO {
 		Producto p = null;
 		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
 			transaction = session.beginTransaction();
-			productos = session.createQuery("from Producto", Producto.class).getResultList();
+			productos = session.createQuery("select p from Producto p join  p.categoria c", Producto.class).getResultList();
 			transaction.commit();
 		} catch (Exception e) {
 			if (transaction != null) {
@@ -102,4 +102,25 @@ public class ProductoDAO {
 		}
 		return productos;
 	}
+	
+	/**
+	 * SELECCIÓN DE PRODUCTOS SEGÚN LA CATEGORÍA
+	 */
+	
+	public List<Producto> selectAllProductoCat() {
+		Transaction transaction = null;
+		List<Producto> productos = null;
+		Producto p = null;
+		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+			transaction = session.beginTransaction();
+			productos = session.createQuery("select p from Producto p where p.categoria.id = :id", Producto.class).getResultList();
+			transaction.commit();
+		} catch (Exception e) {
+			if (transaction != null) {
+				transaction.rollback();
+			}
+		}
+		return productos;
+	}
+	
 }
