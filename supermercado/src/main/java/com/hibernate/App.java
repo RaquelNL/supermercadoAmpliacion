@@ -37,7 +37,7 @@ public class App {
 		textFieldPrecio.setText("");
 		textFieldEnStock.setText("");
 	}
-	
+
 
 	/**
 	 * Launch the application.
@@ -74,20 +74,6 @@ public class App {
 		frmAlmacnSupermercado.setBounds(100, 100, 1121, 619);
 		frmAlmacnSupermercado.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmAlmacnSupermercado.getContentPane().setLayout(null);
-		
-		JButton btnGuardarProd = new JButton("GUARDAR");
-		btnGuardarProd.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				Producto producto = new Producto(textFieldNomProd.getText(), Integer.parseInt(textFieldPrecio.getText()), 
-						Integer.parseInt(textFieldEnStock.getText()), Integer.parseInt(textFieldCat.getText()));
-				productoDAO.insertProducto(producto);
-				JOptionPane.showMessageDialog(null, "Producto añadido");
-				limpiarTexto();
-			}
-		});
-		btnGuardarProd.setBounds(350, 346, 122, 21);
-		frmAlmacnSupermercado.getContentPane().add(btnGuardarProd);
 
 		DefaultTableModel model = new DefaultTableModel();
 		model.addColumn("ID");
@@ -100,7 +86,7 @@ public class App {
 		for (Producto p : productos) {
 		    Object[] row = new Object[5];
 		    row[0] = p.getCodprod();
-		    row[1] = p.getCategoria().getIdcat();
+		    row[1] = p.getCategoria().getNombre();
 		    row[2] = p.getNomProd();
 		    row[3] = p.getPrecio();
 		    row[4] = p.getStock();
@@ -126,6 +112,32 @@ public class App {
 		});
 		scrollPane.setViewportView(table);
 		
+		JButton btnTablaAct = new JButton("");
+		btnTablaAct.setVisible(false);
+		btnTablaAct.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				model.setRowCount(0);
+			}
+		});
+		btnTablaAct.setBounds(28, 331, 85, 21);
+		frmAlmacnSupermercado.getContentPane().add(btnTablaAct);
+		
+		
+		JButton btnGuardarProd = new JButton("GUARDAR");
+		btnGuardarProd.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				Producto producto = new Producto(textFieldNomProd.getText(), Integer.parseInt(textFieldPrecio.getText()), 
+						Integer.parseInt(textFieldEnStock.getText()), Integer.parseInt(textFieldCat.getText()));
+				productoDAO.insertProducto(producto);
+				JOptionPane.showMessageDialog(null, "Producto añadido");
+				limpiarTexto();
+			}
+		});
+		btnGuardarProd.setBounds(350, 346, 122, 21);
+		frmAlmacnSupermercado.getContentPane().add(btnGuardarProd);
+		
 		JButton btnActualizarProd = new JButton("ACTUALIZAR");
 		btnActualizarProd.addMouseListener(new MouseAdapter() {
 			@Override
@@ -149,6 +161,7 @@ public class App {
 			public void mouseClicked(MouseEvent e) {
 				productoDAO.deleteProducto(Integer.parseInt(textFieldId.getText()));
 				JOptionPane.showMessageDialog(null, "Producto borrado");
+				btnTablaAct.doClick();
 				limpiarTexto();
 			}
 		});
@@ -201,6 +214,8 @@ public class App {
 		frmAlmacnSupermercado.getContentPane().add(lblEnStock);
 		
 		textFieldId = new JTextField();
+		textFieldId.setEnabled(false);
+		textFieldId.setEditable(false);
 		textFieldId.setBounds(384, 155, 180, 19);
 		frmAlmacnSupermercado.getContentPane().add(textFieldId);
 		textFieldId.setColumns(10);
@@ -224,8 +239,6 @@ public class App {
 		textFieldEnStock.setColumns(10);
 		textFieldEnStock.setBounds(384, 267, 180, 19);
 		frmAlmacnSupermercado.getContentPane().add(textFieldEnStock);
-		
-		
 		
 		
 	}
