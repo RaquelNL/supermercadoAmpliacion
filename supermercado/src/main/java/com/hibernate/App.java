@@ -100,7 +100,7 @@ public class App {
 		for (Producto p : productos) {
 		    Object[] row = new Object[5];
 		    row[0] = p.getCodprod();
-		    row[1] = p.getCategoria();
+		    row[1] = p.getCategoria().getIdcat();
 		    row[2] = p.getNomProd();
 		    row[3] = p.getPrecio();
 		    row[4] = p.getStock();
@@ -118,8 +118,8 @@ public class App {
 				int index = table.getSelectedRow();
 				DefaultTableModel model = (DefaultTableModel) table.getModel();
 				textFieldId.setText(model.getValueAt(index, 0).toString());
-				textFieldNomProd.setText(model.getValueAt(index, 1).toString());
-				textFieldCat.setText(model.getValueAt(index, 2).toString());
+				textFieldCat.setText(model.getValueAt(index, 1).toString());
+				textFieldNomProd.setText(model.getValueAt(index, 2).toString());
 				textFieldPrecio.setText(model.getValueAt(index, 3).toString());
 				textFieldEnStock.setText(model.getValueAt(index, 4).toString());
 			}
