@@ -104,16 +104,77 @@ public class ProductoDAO {
 	}
 	
 	/**
-	 * SELECCIÓN DE PRODUCTOS SEGÚN LA CATEGORÍA
+	 * SELECCIÓN DE PRODUCTOS SEGÚN BEBIDAS
 	 */
 	
-	public List<Producto> selectAllProductoCat() {
+	public List<Producto> selectAllBebidas() {
 		Transaction transaction = null;
 		List<Producto> productos = null;
 		Producto p = null;
 		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
 			transaction = session.beginTransaction();
-			productos = session.createQuery("select p from Producto p where p.categoria.id = :id", Producto.class).getResultList();
+			productos = session.createQuery("select p from Producto p where p.categoria.id = 1", Producto.class).getResultList();
+			transaction.commit();
+		} catch (Exception e) {
+			if (transaction != null) {
+				transaction.rollback();
+			}
+		}
+		return productos;
+	}
+	
+	/**
+	 * SELECCIÓN DE PRODUCTOS SEGÚN CARNES
+	 */
+	
+	public List<Producto> selectAllCarnes() {
+		Transaction transaction = null;
+		List<Producto> productos = null;
+		Producto p = null;
+		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+			transaction = session.beginTransaction();
+			productos = session.createQuery("select p from Producto p where p.categoria.id = 2", Producto.class).getResultList();
+			transaction.commit();
+		} catch (Exception e) {
+			if (transaction != null) {
+				transaction.rollback();
+			}
+		}
+		return productos;
+	}
+
+	/**
+	 * SELECCIÓN DE PRODUCTOS SEGÚN PESCADOS
+	 */
+	
+	public List<Producto> selectAllPescados() {
+		Transaction transaction = null;
+		List<Producto> productos = null;
+		Producto p = null;
+		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+			transaction = session.beginTransaction();
+			productos = session.createQuery("select p from Producto p where p.categoria.id = 3", Producto.class).getResultList();
+			transaction.commit();
+		} catch (Exception e) {
+			if (transaction != null) {
+				transaction.rollback();
+			}
+		}
+		return productos;
+	}
+
+	
+	/**
+	 * SELECCIÓN MÚLTIPLE
+	 */
+	
+	public List<Producto> selectProductoSinStock() {
+		Transaction transaction = null;
+		List<Producto> productos = null;
+		Producto p = null;
+		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+			transaction = session.beginTransaction();
+			productos = session.createQuery("select p from Producto p join  p.categoria c where p.stock = 0", Producto.class).getResultList();
 			transaction.commit();
 		} catch (Exception e) {
 			if (transaction != null) {
