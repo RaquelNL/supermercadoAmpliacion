@@ -165,7 +165,7 @@ public class ProductoDAO {
 
 	
 	/**
-	 * SELECCIÓN MÚLTIPLE
+	 * SELECCIÓN PRODUCTOS SIN STOCK
 	 */
 	
 	public List<Producto> selectProductoSinStock() {
@@ -175,6 +175,26 @@ public class ProductoDAO {
 		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
 			transaction = session.beginTransaction();
 			productos = session.createQuery("select p from Producto p join  p.categoria c where p.stock = 0", Producto.class).getResultList();
+			transaction.commit();
+		} catch (Exception e) {
+			if (transaction != null) {
+				transaction.rollback();
+			}
+		}
+		return productos;
+	}
+	
+	/**
+	 * SELECCIÓN PRODUCTOS SIN STOCK CON ID
+	 */
+	
+	public List<Producto> selectProductoSinStockId() {
+		Transaction transaction = null;
+		List<Producto> productos = null;
+		Producto p = null;
+		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+			transaction = session.beginTransaction();
+			productos = session.createQuery("select p.id from Producto p join  p.categoria c where p.stock = 0", Producto.class).getResultList();
 			transaction.commit();
 		} catch (Exception e) {
 			if (transaction != null) {
