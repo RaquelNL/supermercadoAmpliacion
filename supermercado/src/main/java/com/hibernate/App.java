@@ -75,6 +75,8 @@ public class App {
 		
 		ProductoDAO productoDAO = new ProductoDAO();
 		
+		
+		
 		frmAlmacnSupermercado = new JFrame();
 		frmAlmacnSupermercado.setTitle("Almacén Supermercado");
 		frmAlmacnSupermercado.setBounds(100, 100, 1121, 619);
@@ -93,231 +95,100 @@ public class App {
 		model.addColumn("Precio");
 		model.addColumn("En Stock");
 		
-		
-		JComboBox comboBoxCat = new JComboBox();
-		comboBoxCat.addItemListener(new ItemListener() {
-			public void itemStateChanged(ItemEvent e) {
-				if (comboBoxCat.getSelectedIndex() == 0) {
-					DefaultTableModel model = new DefaultTableModel();
-					model.addColumn("ID");
-					model.addColumn("Categoría");
-					model.addColumn("Nombre");
-					model.addColumn("Precio");
-					model.addColumn("En Stock");
-					
-					List<Producto> productos = productoDAO.selectAllBebidas();
-					for (Producto p : productos) {
-					    Object[] row = new Object[5];
-					    row[0] = p.getCodprod();
-					    row[1] = p.getCategoria().getNombre();
-					    row[2] = p.getNomProd();
-					    row[3] = p.getPrecio();
-					    row[4] = p.getStock();
-					    model.addRow(row);
-					}
-					
-					JScrollPane scrollPane = new JScrollPane();
-					scrollPane.setBounds(245, 12, 625, 123);
-					frmAlmacnSupermercado.getContentPane().add(scrollPane);
-					
-					table = new JTable(model);
-					table.addMouseListener(new MouseAdapter() {
-						@Override
-						public void mouseClicked(MouseEvent e) {
-							int index = table.getSelectedRow();
-							DefaultTableModel model = (DefaultTableModel) table.getModel();
-							textFieldId.setText(model.getValueAt(index, 0).toString());
-							textFieldCat.setText(model.getValueAt(index, 1).toString());
-							textFieldNomProd.setText(model.getValueAt(index, 2).toString());
-							textFieldPrecio.setText(model.getValueAt(index, 3).toString());
-							textFieldEnStock.setText(model.getValueAt(index, 4).toString());
-						}
-					});
-					scrollPane.setViewportView(table);
-					
-				} else if (comboBoxCat.getSelectedIndex() == 1) {
-					DefaultTableModel model = new DefaultTableModel();
-					model.addColumn("ID");
-					model.addColumn("Categoría");
-					model.addColumn("Nombre");
-					model.addColumn("Precio");
-					model.addColumn("En Stock");
-					
-					List<Producto> productos = productoDAO.selectAllCarnes();
-					for (Producto p : productos) {
-					    Object[] row = new Object[5];
-					    row[0] = p.getCodprod();
-					    row[1] = p.getCategoria().getNombre();
-					    row[2] = p.getNomProd();
-					    row[3] = p.getPrecio();
-					    row[4] = p.getStock();
-					    model.addRow(row);
-					}
-					
-					JScrollPane scrollPane = new JScrollPane();
-					scrollPane.setBounds(245, 12, 625, 123);
-					frmAlmacnSupermercado.getContentPane().add(scrollPane);
-					
-					table = new JTable(model);
-					table.addMouseListener(new MouseAdapter() {
-						@Override
-						public void mouseClicked(MouseEvent e) {
-							int index = table.getSelectedRow();
-							DefaultTableModel model = (DefaultTableModel) table.getModel();
-							textFieldId.setText(model.getValueAt(index, 0).toString());
-							textFieldCat.setText(model.getValueAt(index, 1).toString());
-							textFieldNomProd.setText(model.getValueAt(index, 2).toString());
-							textFieldPrecio.setText(model.getValueAt(index, 3).toString());
-							textFieldEnStock.setText(model.getValueAt(index, 4).toString());
-						}
-					});
-					scrollPane.setViewportView(table);
-					
-				} else {
-					DefaultTableModel model = new DefaultTableModel();
-					model.addColumn("ID");
-					model.addColumn("Categoría");
-					model.addColumn("Nombre");
-					model.addColumn("Precio");
-					model.addColumn("En Stock");
-					
-					List<Producto> productos = productoDAO.selectAllPescados();
-					for (Producto p : productos) {
-					    Object[] row = new Object[5];
-					    row[0] = p.getCodprod();
-					    row[1] = p.getCategoria().getNombre();
-					    row[2] = p.getNomProd();
-					    row[3] = p.getPrecio();
-					    row[4] = p.getStock();
-					    model.addRow(row);
-					}
-					
-					JScrollPane scrollPane = new JScrollPane();
-					scrollPane.setBounds(245, 12, 625, 123);
-					frmAlmacnSupermercado.getContentPane().add(scrollPane);
-					
-					table = new JTable(model);
-					table.addMouseListener(new MouseAdapter() {
-						@Override
-						public void mouseClicked(MouseEvent e) {
-							int index = table.getSelectedRow();
-							DefaultTableModel model = (DefaultTableModel) table.getModel();
-							textFieldId.setText(model.getValueAt(index, 0).toString());
-							textFieldCat.setText(model.getValueAt(index, 1).toString());
-							textFieldNomProd.setText(model.getValueAt(index, 2).toString());
-							textFieldPrecio.setText(model.getValueAt(index, 3).toString());
-							textFieldEnStock.setText(model.getValueAt(index, 4).toString());
-						}
-					});
-					scrollPane.setViewportView(table);
-					
+		JButton btnTablaActCarnes = new JButton("");
+		btnTablaActCarnes.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				model.setRowCount(0);
+				List<Producto> productos = productoDAO.selectAllCarnes();
+				for (Producto p : productos) {
+				    Object[] row = new Object[5];
+				    row[0] = p.getCodprod();
+				    row[1] = p.getCategoria().getNombre();
+				    row[2] = p.getNomProd();
+				    row[3] = p.getPrecio();
+				    row[4] = p.getStock();
+				    model.addRow(row);
 				}
 			}
 		});
-		comboBoxCat.setModel(new DefaultComboBoxModel(new String[] {"Bebidas", "Carnes", "Pescados", "Limpieza"}));
-		comboBoxCat.setVisible(false);
-		comboBoxCat.setBounds(47, 143, 122, 21);
-		frmAlmacnSupermercado.getContentPane().add(comboBoxCat);
+		btnTablaActCarnes.setVisible(false);
+		btnTablaActCarnes.addMouseListener(new MouseAdapter() {
+			
+		});
+		btnTablaActCarnes.setBounds(28, 331, 85, 21);
+		frmAlmacnSupermercado.getContentPane().add(btnTablaActCarnes);
 		
-		JComboBox comboBoxOpcion = new JComboBox();
-		comboBoxOpcion.setModel(new DefaultComboBoxModel(new String[] {"Todos los Productos", "Según la Categoría", "Productos sin Stock"}));
-		comboBoxOpcion.addItemListener(new ItemListener() {
-			public void itemStateChanged(ItemEvent e) {
-				if (comboBoxOpcion.getSelectedIndex() == 0) {
-					lblEligeLaCategoria.setVisible(false);
-					comboBoxCat.setVisible(false);
-					DefaultTableModel model = new DefaultTableModel();
-					model.addColumn("ID");
-					model.addColumn("Categoría");
-					model.addColumn("Nombre");
-					model.addColumn("Precio");
-					model.addColumn("En Stock");
-					
-					List<Producto> productos = productoDAO.selectAllProducto();
-					for (Producto p : productos) {
-					    Object[] row = new Object[5];
-					    row[0] = p.getCodprod();
-					    row[1] = p.getCategoria().getNombre();
-					    row[2] = p.getNomProd();
-					    row[3] = p.getPrecio();
-					    row[4] = p.getStock();
-					    model.addRow(row);
-					}
-					
-					JScrollPane scrollPane = new JScrollPane();
-					scrollPane.setBounds(245, 12, 625, 123);
-					frmAlmacnSupermercado.getContentPane().add(scrollPane);
-					
-					table = new JTable(model);
-					table.addMouseListener(new MouseAdapter() {
-						@Override
-						public void mouseClicked(MouseEvent e) {
-							int index = table.getSelectedRow();
-							if (index != -1) {
-								DefaultTableModel model = (DefaultTableModel) table.getModel();
-							    if (model instanceof DefaultTableModel && model.getColumnCount() == 5) {
-							        textFieldId.setText(model.getValueAt(index, 0).toString());
-							        textFieldCat.setText(model.getValueAt(index, 1).toString());
-							        textFieldNomProd.setText(model.getValueAt(index, 2).toString());
-							        textFieldPrecio.setText(model.getValueAt(index, 3).toString());
-							        textFieldEnStock.setText(model.getValueAt(index, 4).toString());
-							    }
-							 }
-						}
-					});
-					scrollPane.setViewportView(table);
-					
-				} else if (comboBoxOpcion.getSelectedIndex() == 1) {
-					lblEligeLaCategoria.setVisible(true);
-					comboBoxCat.setVisible(true);
-				} else {
-					lblEligeLaCategoria.setVisible(false);
-					comboBoxCat.setVisible(false);
-					DefaultTableModel model = new DefaultTableModel();
-					model.addColumn("ID");
-					model.addColumn("Categoría");
-					model.addColumn("Nombre");
-					model.addColumn("Precio");
-					model.addColumn("En Stock");
-					
-					List<Producto> productos = productoDAO.selectProductoSinStock();
-					for (Producto p : productos) {
-					    Object[] row = new Object[5];
-					    row[0] = p.getCodprod();
-					    row[1] = p.getCategoria().getNombre();
-					    row[2] = p.getNomProd();
-					    row[3] = p.getPrecio();
-					    row[4] = p.getStock();
-					    model.addRow(row);
-					}
-					
-					JScrollPane scrollPane = new JScrollPane();
-					scrollPane.setBounds(245, 12, 625, 123);
-					frmAlmacnSupermercado.getContentPane().add(scrollPane);
-					
-					table = new JTable(model);
-					table.addMouseListener(new MouseAdapter() {
-						@Override
-						public void mouseClicked(MouseEvent e) {
-							int index = table.getSelectedRow();
-							DefaultTableModel model = (DefaultTableModel) table.getModel();
-							textFieldId.setText(model.getValueAt(index, 0).toString());
-							textFieldCat.setText(model.getValueAt(index, 1).toString());
-							textFieldNomProd.setText(model.getValueAt(index, 2).toString());
-							textFieldPrecio.setText(model.getValueAt(index, 3).toString());
-							textFieldEnStock.setText(model.getValueAt(index, 4).toString());
-						}
-					});
-					scrollPane.setViewportView(table);
-					
+		JButton btnTablaActBebidas = new JButton("");
+		btnTablaActBebidas.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				model.setRowCount(0);
+				List<Producto> productos = productoDAO.selectAllBebidas();
+				for (Producto p : productos) {
+				    Object[] row = new Object[5];
+				    row[0] = p.getCodprod();
+				    row[1] = p.getCategoria().getNombre();
+				    row[2] = p.getNomProd();
+				    row[3] = p.getPrecio();
+				    row[4] = p.getStock();
+				    model.addRow(row);
 				}
 			}
 		});
-		comboBoxOpcion.setBounds(47, 65, 122, 21);
-		frmAlmacnSupermercado.getContentPane().add(comboBoxOpcion);
+		btnTablaActBebidas.setVisible(false);
+		btnTablaActBebidas.addMouseListener(new MouseAdapter() {
+			
+		});
+		btnTablaActBebidas.setBounds(28, 331, 85, 21);
+		frmAlmacnSupermercado.getContentPane().add(btnTablaActBebidas);
 		
-		JButton btnTablaAct = new JButton("");
-		btnTablaAct.addActionListener(new ActionListener() {
+		JButton btnTablaActPescados = new JButton("");
+		btnTablaActPescados.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				model.setRowCount(0);
+				List<Producto> productos = productoDAO.selectAllPescados();
+				for (Producto p : productos) {
+				    Object[] row = new Object[5];
+				    row[0] = p.getCodprod();
+				    row[1] = p.getCategoria().getNombre();
+				    row[2] = p.getNomProd();
+				    row[3] = p.getPrecio();
+				    row[4] = p.getStock();
+				    model.addRow(row);
+				}
+			}
+		});
+		btnTablaActPescados.setVisible(false);
+		btnTablaActPescados.addMouseListener(new MouseAdapter() {
+			
+		});
+		btnTablaActPescados.setBounds(28, 331, 85, 21);
+		frmAlmacnSupermercado.getContentPane().add(btnTablaActPescados);
+		
+		JButton btnTablaActProductos = new JButton("");
+		btnTablaActProductos.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				model.setRowCount(0);
+				List<Producto> productos = productoDAO.selectAllProducto();
+				for (Producto p : productos) {
+				    Object[] row = new Object[5];
+				    row[0] = p.getCodprod();
+				    row[1] = p.getCategoria().getNombre();
+				    row[2] = p.getNomProd();
+				    row[3] = p.getPrecio();
+				    row[4] = p.getStock();
+				    model.addRow(row);
+				}
+			}
+		});
+		btnTablaActProductos.setVisible(false);
+		btnTablaActProductos.addMouseListener(new MouseAdapter() {
+			
+		});
+		btnTablaActProductos.setBounds(28, 331, 85, 21);
+		frmAlmacnSupermercado.getContentPane().add(btnTablaActProductos);
+		
+		JButton btnTablaActSinStock = new JButton("");
+		btnTablaActSinStock.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				model.setRowCount(0);
 				List<Producto> productos = productoDAO.selectProductoSinStock();
@@ -332,12 +203,141 @@ public class App {
 				}
 			}
 		});
-		btnTablaAct.setVisible(false);
-		btnTablaAct.addMouseListener(new MouseAdapter() {
+		btnTablaActSinStock.setVisible(false);
+		btnTablaActSinStock.addMouseListener(new MouseAdapter() {
 			
 		});
-		btnTablaAct.setBounds(28, 331, 85, 21);
-		frmAlmacnSupermercado.getContentPane().add(btnTablaAct);
+		btnTablaActSinStock.setBounds(28, 331, 85, 21);
+		frmAlmacnSupermercado.getContentPane().add(btnTablaActSinStock);
+		
+		JComboBox comboBoxCat = new JComboBox();
+		comboBoxCat.addItemListener(new ItemListener() {
+			public void itemStateChanged(ItemEvent e) {
+				if (comboBoxCat.getSelectedIndex() == 0) {
+					List<Producto> productos = productoDAO.selectAllBebidas();
+					for (Producto p : productos) {
+					    Object[] row = new Object[5];
+					    row[0] = p.getCodprod();
+					    row[1] = p.getCategoria().getNombre();
+					    row[2] = p.getNomProd();
+					    row[3] = p.getPrecio();
+					    row[4] = p.getStock();
+					    model.addRow(row);
+					    btnTablaActBebidas.doClick();
+					    
+					}
+					
+				} else if (comboBoxCat.getSelectedIndex() == 1) {
+					List<Producto> productos = productoDAO.selectAllCarnes();
+					for (Producto p : productos) {
+					    Object[] row = new Object[5];
+					    row[0] = p.getCodprod();
+					    row[1] = p.getCategoria().getNombre();
+					    row[2] = p.getNomProd();
+					    row[3] = p.getPrecio();
+					    row[4] = p.getStock();
+					    model.addRow(row);
+					    btnTablaActCarnes.doClick();
+					   
+					}
+				} else {
+					List<Producto> productos = productoDAO.selectAllPescados();
+					for (Producto p : productos) {
+					    Object[] row = new Object[5];
+					    row[0] = p.getCodprod();
+					    row[1] = p.getCategoria().getNombre();
+					    row[2] = p.getNomProd();
+					    row[3] = p.getPrecio();
+					    row[4] = p.getStock();
+					    model.addRow(row);
+					    btnTablaActPescados.doClick();
+					}
+				}
+				
+				
+			}
+			
+			
+		});
+		comboBoxCat.setModel(new DefaultComboBoxModel(new String[] {"Bebidas", "Carnes", "Pescados", "Limpieza"}));
+		comboBoxCat.setVisible(false);
+		comboBoxCat.setBounds(47, 143, 122, 21);
+		frmAlmacnSupermercado.getContentPane().add(comboBoxCat);
+		
+		
+		JComboBox comboBoxOpcion = new JComboBox();
+		comboBoxOpcion.setModel(new DefaultComboBoxModel(new String[] {"Todos los Productos", "Según la Categoría", "Productos sin Stock"}));
+		comboBoxOpcion.addItemListener(new ItemListener() {
+			public void itemStateChanged(ItemEvent e) {
+				if (comboBoxOpcion.getSelectedIndex() == 0) {
+					lblEligeLaCategoria.setVisible(false);
+					comboBoxCat.setVisible(false);
+					
+					List<Producto> productos = productoDAO.selectAllProducto();
+					for (Producto p : productos) {
+					    Object[] row = new Object[5];
+					    row[0] = p.getCodprod();
+					    row[1] = p.getCategoria().getNombre();
+					    row[2] = p.getNomProd();
+					    row[3] = p.getPrecio();
+					    row[4] = p.getStock();
+					    model.addRow(row);
+					    btnTablaActProductos.doClick();
+					    
+					}
+					
+					
+				} else if (comboBoxOpcion.getSelectedIndex() == 1) {
+					lblEligeLaCategoria.setVisible(true);
+					comboBoxCat.setVisible(true);
+					
+				} else {
+					lblEligeLaCategoria.setVisible(false);
+					comboBoxCat.setVisible(false);
+					
+					List<Producto> productos = productoDAO.selectProductoSinStock();
+					for (Producto p : productos) {
+					    Object[] row = new Object[5];
+					    row[0] = p.getCodprod();
+					    row[1] = p.getCategoria().getNombre();
+					    row[2] = p.getNomProd();
+					    row[3] = p.getPrecio();
+					    row[4] = p.getStock();
+					    model.addRow(row);
+					    btnTablaActSinStock.doClick();
+					    
+					}
+					
+				}
+				
+			}
+		});
+		comboBoxOpcion.setBounds(47, 65, 122, 21);
+		frmAlmacnSupermercado.getContentPane().add(comboBoxOpcion);
+		
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(245, 12, 625, 123);
+		frmAlmacnSupermercado.getContentPane().add(scrollPane);
+		
+		table = new JTable(model);
+		table.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				int index = table.getSelectedRow();
+				if (index != -1) {
+					DefaultTableModel model = (DefaultTableModel) table.getModel();
+				    if (model instanceof DefaultTableModel && model.getColumnCount() == 5) {
+				        textFieldId.setText(model.getValueAt(index, 0).toString());
+				        textFieldCat.setText(model.getValueAt(index, 1).toString());
+				        textFieldNomProd.setText(model.getValueAt(index, 2).toString());
+				        textFieldPrecio.setText(model.getValueAt(index, 3).toString());
+				        textFieldEnStock.setText(model.getValueAt(index, 4).toString());
+				    }
+				 }
+			}
+		});
+		scrollPane.setViewportView(table);
+		
 		
 		
 		JButton btnGuardarProd = new JButton("GUARDAR");
@@ -376,7 +376,7 @@ public class App {
 			public void mouseClicked(MouseEvent e) {
 				productoDAO.deleteProducto(Integer.parseInt(textFieldId.getText()));
 				JOptionPane.showMessageDialog(null, "Producto borrado");
-				btnTablaAct.doClick();
+				//btnTablaAct.doClick();
 				limpiarTexto();
 			}
 		});
