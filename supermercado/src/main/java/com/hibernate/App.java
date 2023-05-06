@@ -40,7 +40,6 @@ public class App {
 	void limpiarTexto() {
 		textFieldId.setText("");
 		textFieldNomProd.setText("");
-		textFieldCat.setText("");
 		textFieldPrecio.setText("");
 		textFieldEnStock.setText("");
 	}
@@ -96,125 +95,12 @@ public class App {
 		model.addColumn("Precio");
 		model.addColumn("En Stock");
 		
-		JButton btnTablaActCarnes = new JButton("");
-		btnTablaActCarnes.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				model.setRowCount(0);
-				List<Producto> productos = productoDAO.selectAllCarnes();
-				for (Producto p : productos) {
-				    Object[] row = new Object[5];
-				    row[0] = p.getCodprod();
-				    row[1] = p.getCategoria().getNombre();
-				    row[2] = p.getNomProd();
-				    row[3] = p.getPrecio();
-				    row[4] = p.getStock();
-				    model.addRow(row);
-				}
-			}
-		});
-		btnTablaActCarnes.setVisible(false);
-		btnTablaActCarnes.addMouseListener(new MouseAdapter() {
-			
-		});
-		btnTablaActCarnes.setBounds(28, 331, 85, 21);
-		frmAlmacnSupermercado.getContentPane().add(btnTablaActCarnes);
-		
-		JButton btnTablaActBebidas = new JButton("");
-		btnTablaActBebidas.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				model.setRowCount(0);
-				List<Producto> productos = productoDAO.selectAllBebidas();
-				for (Producto p : productos) {
-				    Object[] row = new Object[5];
-				    row[0] = p.getCodprod();
-				    row[1] = p.getCategoria().getNombre();
-				    row[2] = p.getNomProd();
-				    row[3] = p.getPrecio();
-				    row[4] = p.getStock();
-				    model.addRow(row);
-				}
-			}
-		});
-		btnTablaActBebidas.setVisible(false);
-		btnTablaActBebidas.addMouseListener(new MouseAdapter() {
-			
-		});
-		btnTablaActBebidas.setBounds(28, 331, 85, 21);
-		frmAlmacnSupermercado.getContentPane().add(btnTablaActBebidas);
-		
-		JButton btnTablaActPescados = new JButton("");
-		btnTablaActPescados.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				model.setRowCount(0);
-				List<Producto> productos = productoDAO.selectAllPescados();
-				for (Producto p : productos) {
-				    Object[] row = new Object[5];
-				    row[0] = p.getCodprod();
-				    row[1] = p.getCategoria().getNombre();
-				    row[2] = p.getNomProd();
-				    row[3] = p.getPrecio();
-				    row[4] = p.getStock();
-				    model.addRow(row);
-				}
-			}
-		});
-		btnTablaActPescados.setVisible(false);
-		btnTablaActPescados.addMouseListener(new MouseAdapter() {
-			
-		});
-		btnTablaActPescados.setBounds(28, 331, 85, 21);
-		frmAlmacnSupermercado.getContentPane().add(btnTablaActPescados);
-		
-		JButton btnTablaActProductos = new JButton("");
-		btnTablaActProductos.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				model.setRowCount(0);
-				List<Producto> productos = productoDAO.selectAllProducto();
-				for (Producto p : productos) {
-				    Object[] row = new Object[5];
-				    row[0] = p.getCodprod();
-				    row[1] = p.getCategoria().getNombre();
-				    row[2] = p.getNomProd();
-				    row[3] = p.getPrecio();
-				    row[4] = p.getStock();
-				    model.addRow(row);
-				}
-			}
-		});
-		btnTablaActProductos.setVisible(false);
-		btnTablaActProductos.addMouseListener(new MouseAdapter() {
-			
-		});
-		btnTablaActProductos.setBounds(28, 331, 85, 21);
-		frmAlmacnSupermercado.getContentPane().add(btnTablaActProductos);
-		
-		JButton btnTablaActSinStock = new JButton("");
-		btnTablaActSinStock.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				model.setRowCount(0);
-				List<Producto> productos = productoDAO.selectProductoSinStock();
-				for (Producto p : productos) {
-				    Object[] row = new Object[5];
-				    row[0] = p.getCodprod();
-				    row[1] = p.getCategoria().getNombre();
-				    row[2] = p.getNomProd();
-				    row[3] = p.getPrecio();
-				    row[4] = p.getStock();
-				    model.addRow(row);
-				}
-			}
-		});
-		btnTablaActSinStock.setVisible(false);
-		btnTablaActSinStock.addMouseListener(new MouseAdapter() {
-			
-		});
-		btnTablaActSinStock.setBounds(28, 331, 85, 21);
-		frmAlmacnSupermercado.getContentPane().add(btnTablaActSinStock);
-		
+	
 		JComboBox comboBoxCat = new JComboBox();
 		comboBoxCat.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent e) {
 				if (comboBoxCat.getSelectedIndex() == 0) {
+					model.setRowCount(0);
 					List<Producto> productos = productoDAO.selectAllBebidas();
 					for (Producto p : productos) {
 					    Object[] row = new Object[5];
@@ -224,11 +110,12 @@ public class App {
 					    row[3] = p.getPrecio();
 					    row[4] = p.getStock();
 					    model.addRow(row);
-					    btnTablaActBebidas.doClick();
+					   
 					    
 					}
 					
 				} else if (comboBoxCat.getSelectedIndex() == 1) {
+					model.setRowCount(0);
 					List<Producto> productos = productoDAO.selectAllCarnes();
 					for (Producto p : productos) {
 					    Object[] row = new Object[5];
@@ -238,10 +125,11 @@ public class App {
 					    row[3] = p.getPrecio();
 					    row[4] = p.getStock();
 					    model.addRow(row);
-					    btnTablaActCarnes.doClick();
+
 					   
 					}
 				} else {
+					model.setRowCount(0);
 					List<Producto> productos = productoDAO.selectAllPescados();
 					for (Producto p : productos) {
 					    Object[] row = new Object[5];
@@ -251,7 +139,7 @@ public class App {
 					    row[3] = p.getPrecio();
 					    row[4] = p.getStock();
 					    model.addRow(row);
-					    btnTablaActPescados.doClick();
+					   
 					}
 				}
 				
@@ -306,6 +194,7 @@ public class App {
 					lblEligeLaCategoria.setVisible(false);
 					comboBoxCat.setVisible(false);
 					
+					model.setRowCount(0);
 					List<Producto> productos = productoDAO.selectAllProducto();
 					for (Producto p : productos) {
 					    Object[] row = new Object[5];
@@ -315,8 +204,7 @@ public class App {
 					    row[3] = p.getPrecio();
 					    row[4] = p.getStock();
 					    model.addRow(row);
-					    btnTablaActProductos.doClick();
-					    
+
 					}
 					
 					
@@ -334,6 +222,7 @@ public class App {
 					textField.setVisible(true);
 					btnPedir.setVisible(true);
 					
+					model.setRowCount(0);
 					List<Producto> productos = productoDAO.selectProductoSinStock();
 					for (Producto p : productos) {
 					    Object[] row = new Object[5];
@@ -343,7 +232,7 @@ public class App {
 					    row[3] = p.getPrecio();
 					    row[4] = p.getStock();
 					    model.addRow(row);
-					    btnTablaActSinStock.doClick();
+					   
 					   
 					    
 					}
@@ -384,14 +273,20 @@ public class App {
 		btnGuardarProd.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				Producto producto = new Producto(textFieldNomProd.getText(), Integer.parseInt(textFieldPrecio.getText()), 
-						Integer.parseInt(textFieldEnStock.getText()), Integer.parseInt(comboBoxCat.getToolTipText()));
-				productoDAO.insertProducto(producto);
+				Categoria categoria = new Categoria();
+				categoria.setIdcat(comboBoxCat.getSelectedIndex()+1);
+				categoria.setNombre(comboBoxCat.getSelectedItem().toString());
+
+				Producto producto = new Producto(textFieldNomProd.getText(),
+                        Double.parseDouble(textFieldPrecio.getText()),
+                        Integer.parseInt(textFieldEnStock.getText()),
+                        categoria);
+					productoDAO.insertProducto(producto);
 				JOptionPane.showMessageDialog(null, "Producto añadido");
 				limpiarTexto();
 			}
 		});
-		btnGuardarProd.setBounds(350, 346, 122, 21);
+		btnGuardarProd.setBounds(207, 461, 122, 21);
 		frmAlmacnSupermercado.getContentPane().add(btnGuardarProd);
 		
 		JButton btnActualizarProd = new JButton("ACTUALIZAR");
@@ -400,14 +295,9 @@ public class App {
 		    public void mouseClicked(MouseEvent e) {
 		        Producto productoActualizar = productoDAO.selectProductoById(Integer.parseInt(textFieldId.getText()));
 		        productoActualizar.setNomProd(textFieldNomProd.getText());
-		        
-		        
-		        String categoria = comboBoxCat.getSelectedItem().toString();
-		        String[] arrayCat = categoria.split(": ");
-		        String categoriaNom = arrayCat[0];
-		        //int categoriaNum = Integer.parseInt(arrayCat[1]);
 		        Categoria c = new Categoria();
-		        c.setNombre(categoriaNom);
+		        c.setIdcat(comboBoxCat.getSelectedIndex()+1);
+		        c.setNombre(comboBoxCat.getSelectedItem().toString());
 		        productoActualizar.setCategoria(c);
 		        productoActualizar.setPrecio(Double.parseDouble(textFieldPrecio.getText()));
 		        productoActualizar.setStock(Integer.parseInt(textFieldEnStock.getText()));
@@ -416,7 +306,7 @@ public class App {
 		        limpiarTexto();
 		    }
 		});
-		btnActualizarProd.setBounds(514, 346, 122, 21);
+		btnActualizarProd.setBounds(371, 461, 122, 21);
 		frmAlmacnSupermercado.getContentPane().add(btnActualizarProd);
 		
 		
@@ -430,7 +320,7 @@ public class App {
 				limpiarTexto();
 			}
 		});
-		btnBorrarProd.setBounds(672, 346, 122, 21);
+		btnBorrarProd.setBounds(529, 461, 122, 21);
 		frmAlmacnSupermercado.getContentPane().add(btnBorrarProd);
 		
 		JLabel lblCategoria = new JLabel("ELIGE LA OPCIÓN:");
