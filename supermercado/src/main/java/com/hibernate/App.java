@@ -273,6 +273,7 @@ public class App {
 		btnGuardarProd.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				
 				Categoria categoria = new Categoria();
 				categoria.setIdcat(comboBoxCat.getSelectedIndex()+1);
 				categoria.setNombre(comboBoxCat.getSelectedItem().toString());
@@ -282,10 +283,20 @@ public class App {
                         Integer.parseInt(textFieldEnStock.getText()),
                         categoria);
 					productoDAO.insertProducto(producto);
-				JOptionPane.showMessageDialog(null, "Producto añadido");
-				limpiarTexto();
+					JOptionPane.showMessageDialog(null, "Producto añadido");
+					limpiarTexto();
+					model.setRowCount(0);
+					List<Producto> productos = productoDAO.selectAllProducto();
+					for (Producto p : productos) {
+					    Object[] row = new Object[5];
+					    row[0] = p.getCodprod();
+					    row[1] = p.getCategoria().getNombre();
+					    row[2] = p.getNomProd();
+					    row[3] = p.getPrecio();
+					    row[4] = p.getStock();
+					    model.addRow(row);
 			}
-		});
+		}});
 		btnGuardarProd.setBounds(207, 461, 122, 21);
 		frmAlmacnSupermercado.getContentPane().add(btnGuardarProd);
 		
@@ -304,8 +315,19 @@ public class App {
 		        productoDAO.updateProducto(productoActualizar);
 		        JOptionPane.showMessageDialog(null, "Producto actualizado");
 		        limpiarTexto();
+		        model.setRowCount(0);
+				List<Producto> productos = productoDAO.selectAllProducto();
+				for (Producto p : productos) {
+				    Object[] row = new Object[5];
+				    row[0] = p.getCodprod();
+				    row[1] = p.getCategoria().getNombre();
+				    row[2] = p.getNomProd();
+				    row[3] = p.getPrecio();
+				    row[4] = p.getStock();
+				    model.addRow(row);
+			
 		    }
-		});
+		}});
 		btnActualizarProd.setBounds(371, 461, 122, 21);
 		frmAlmacnSupermercado.getContentPane().add(btnActualizarProd);
 		
