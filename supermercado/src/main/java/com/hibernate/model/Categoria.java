@@ -27,7 +27,7 @@ public class Categoria {
 		
 	}
 	
-	public Categoria(String nombre) {
+	public Categoria(int id, String nombre) {
 		super();
 		this.nombre = nombre;
 	}

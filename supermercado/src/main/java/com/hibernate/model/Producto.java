@@ -36,12 +36,13 @@ public class Producto {
 		
 	}
 	
-	public Producto(String nomProd, double precio, int stock, Categoria categoria) {
+	public Producto(String nomProd, Categoria categoria, double precio, int stock ) {
 		super();
 		this.nomProd = nomProd;
+		this.categoria = categoria;
 		this.precio = precio;
 		this.stock = stock;
-		this.categoria = categoria;
+		
 	}
 
 	public int getCodprod() {

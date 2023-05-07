@@ -11,6 +11,7 @@ import javax.swing.table.DefaultTableModel;
 
 import com.hibernate.model.Categoria;
 import com.hibernate.model.Producto;
+import com.hibernate.dao.CategoriaDAO;
 import com.hibernate.dao.ProductoDAO;
 
 import javax.swing.JButton;
@@ -74,6 +75,7 @@ public class App {
 	private void initialize() {
 		
 		ProductoDAO productoDAO = new ProductoDAO();
+		CategoriaDAO categoriaDAO = new CategoriaDAO();
 		
 		
 		
@@ -88,6 +90,15 @@ public class App {
 		lblEligeLaCategoria.setBounds(47, 118, 157, 13);
 		frmAlmacnSupermercado.getContentPane().add(lblEligeLaCategoria);
 
+		JComboBox comboBoxIdCat = new JComboBox();
+		comboBoxIdCat.addItem(new Categoria(1, "Bebidas"));
+		comboBoxIdCat.addItem(new Categoria(2, "Carnes"));
+		comboBoxIdCat.addItem(new Categoria(3, "Pescados"));
+		comboBoxIdCat.setModel(new DefaultComboBoxModel(new String[] {"1: Bebidas", "2: Carnes", "3: Pescados"}));
+		comboBoxIdCat.setBounds(384, 187, 180, 21);
+		frmAlmacnSupermercado.getContentPane().add(comboBoxIdCat);
+		
+		
 		DefaultTableModel model = new DefaultTableModel();
 		model.addColumn("ID");
 		model.addColumn("Categoría");
@@ -274,14 +285,15 @@ public class App {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				
-				Categoria categoria = new Categoria();
-				categoria.setIdcat(comboBoxCat.getSelectedIndex()+1);
-				categoria.setNombre(comboBoxCat.getSelectedItem().toString());
-
-				Producto producto = new Producto(textFieldNomProd.getText(),
+				String opcionSeleccionada = (String) comboBoxIdCat.getSelectedItem();
+		        String[] partes = opcionSeleccionada.split(": ");
+		        int index = Integer.parseInt(partes[0].trim());
+		        Categoria c = categoriaDAO.selectcategoriaById(index);
+		        
+						
+				Producto producto = new Producto(textFieldNomProd.getText(), c,
                         Double.parseDouble(textFieldPrecio.getText()),
-                        Integer.parseInt(textFieldEnStock.getText()),
-                        categoria);
+                        Integer.parseInt(textFieldEnStock.getText()));
 					productoDAO.insertProducto(producto);
 					JOptionPane.showMessageDialog(null, "Producto añadido");
 					limpiarTexto();
@@ -306,10 +318,14 @@ public class App {
 		    public void mouseClicked(MouseEvent e) {
 		        Producto productoActualizar = productoDAO.selectProductoById(Integer.parseInt(textFieldId.getText()));
 		        productoActualizar.setNomProd(textFieldNomProd.getText());
-		        Categoria c = new Categoria();
-		        c.setIdcat(comboBoxCat.getSelectedIndex()+1);
-		        c.setNombre(comboBoxCat.getSelectedItem().toString());
+		        
+		        String opcionSeleccionada = (String) comboBoxIdCat.getSelectedItem();
+		        String[] partes = opcionSeleccionada.split(": ");
+		        int index = Integer.parseInt(partes[0].trim());
+		        Categoria c = categoriaDAO.selectcategoriaById(index);
 		        productoActualizar.setCategoria(c);
+		       
+		        
 		        productoActualizar.setPrecio(Double.parseDouble(textFieldPrecio.getText()));
 		        productoActualizar.setStock(Integer.parseInt(textFieldEnStock.getText()));
 		        productoDAO.updateProducto(productoActualizar);
@@ -325,7 +341,6 @@ public class App {
 				    row[3] = p.getPrecio();
 				    row[4] = p.getStock();
 				    model.addRow(row);
-			
 		    }
 		}});
 		btnActualizarProd.setBounds(371, 461, 122, 21);
@@ -338,10 +353,19 @@ public class App {
 			public void mouseClicked(MouseEvent e) {
 				productoDAO.deleteProducto(Integer.parseInt(textFieldId.getText()));
 				JOptionPane.showMessageDialog(null, "Producto borrado");
-				//btnTablaActSinStock.doClick();
 				limpiarTexto();
+				model.setRowCount(0);
+				List<Producto> productos = productoDAO.selectAllProducto();
+				for (Producto p : productos) {
+				    Object[] row = new Object[5];
+				    row[0] = p.getCodprod();
+				    row[1] = p.getCategoria().getNombre();
+				    row[2] = p.getNomProd();
+				    row[3] = p.getPrecio();
+				    row[4] = p.getStock();
+				    model.addRow(row);
 			}
-		});
+		}});
 		btnBorrarProd.setBounds(529, 461, 122, 21);
 		frmAlmacnSupermercado.getContentPane().add(btnBorrarProd);
 		
@@ -401,21 +425,6 @@ public class App {
 		textFieldEnStock.setBounds(384, 267, 180, 19);
 		frmAlmacnSupermercado.getContentPane().add(textFieldEnStock);
 		
-		JComboBox comboBoxIdCat = new JComboBox();
-		comboBoxIdCat.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				if (comboBoxIdCat.getSelectedIndex() == 0) {
-					comboBoxCat.setToolTipText("Bebidas: 1");
-				} else if (comboBoxIdCat.getSelectedIndex() == 1) {
-					comboBoxCat.setToolTipText("Carnes: 2");
-				} else {
-					comboBoxCat.setToolTipText("Pescados: 3");
-				}
-			}
-		});
-		comboBoxIdCat.setModel(new DefaultComboBoxModel(new String[] {"Bebidas: 1", "Carnes: 2", "Pescados: 3"}));
-		comboBoxIdCat.setBounds(384, 187, 180, 21);
-		frmAlmacnSupermercado.getContentPane().add(comboBoxIdCat);
 		
 		
 		
