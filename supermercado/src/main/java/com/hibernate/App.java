@@ -36,7 +36,6 @@ public class App {
 	private JTextField textFieldNomProd;
 	private JTextField textFieldPrecio;
 	private JTextField textFieldEnStock;
-	private JTextField textField;
 	
 	void limpiarTexto() {
 		textFieldId.setText("");
@@ -163,39 +162,7 @@ public class App {
 		comboBoxCat.setVisible(false);
 		comboBoxCat.setBounds(47, 143, 122, 21);
 		frmAlmacnSupermercado.getContentPane().add(comboBoxCat);
-		
-		JLabel lblProductosStock = new JLabel("PEDIR PRODUCTOS:");
-		lblProductosStock.setVisible(false);
-		lblProductosStock.setBounds(813, 146, 201, 15);
-		frmAlmacnSupermercado.getContentPane().add(lblProductosStock);
-		
-		JLabel lblEligeProducto = new JLabel("Elige el producto:");
-		lblEligeProducto.setVisible(false);
-		lblEligeProducto.setBounds(813, 190, 148, 15);
-		frmAlmacnSupermercado.getContentPane().add(lblEligeProducto);
-		
-		JComboBox comboBoxProducto = new JComboBox();
-		comboBoxProducto.setVisible(false);
 		List<Producto> productosSinStock = productoDAO.selectProductoSinStockId();
-		comboBoxProducto.addItem(productosSinStock);
-		comboBoxProducto.setBounds(941, 185, 117, 24);
-		frmAlmacnSupermercado.getContentPane().add(comboBoxProducto);
-		
-		JLabel lblEligeLaCantidad = new JLabel("Elige la cantidad:");
-		lblEligeLaCantidad.setVisible(false);
-		lblEligeLaCantidad.setBounds(813, 217, 128, 15);
-		frmAlmacnSupermercado.getContentPane().add(lblEligeLaCantidad);
-		
-		textField = new JTextField();
-		textField.setVisible(false);		
-		textField.setBounds(941, 217, 114, 19);
-		frmAlmacnSupermercado.getContentPane().add(textField);
-		textField.setColumns(10);
-		
-		JButton btnPedir = new JButton("PEDIR");
-		btnPedir.setVisible(false);
-		btnPedir.setBounds(885, 286, 117, 25);
-		frmAlmacnSupermercado.getContentPane().add(btnPedir);
 		
 		JComboBox comboBoxOpcion = new JComboBox();
 		comboBoxOpcion.setModel(new DefaultComboBoxModel(new String[] {"Todos los Productos", "Según la Categoría", "Productos sin Stock"}));
@@ -226,12 +193,7 @@ public class App {
 				} else {
 					lblEligeLaCategoria.setVisible(false);
 					comboBoxCat.setVisible(false);
-					lblProductosStock.setVisible(true);
-					lblEligeProducto.setVisible(true);
-					comboBoxProducto.setVisible(true);
-					lblEligeLaCantidad.setVisible(true);
-					textField.setVisible(true);
-					btnPedir.setVisible(true);
+					
 					
 					model.setRowCount(0);
 					List<Producto> productos = productoDAO.selectProductoSinStock();
@@ -309,7 +271,7 @@ public class App {
 					    model.addRow(row);
 			}
 		}});
-		btnGuardarProd.setBounds(207, 461, 122, 21);
+		btnGuardarProd.setBounds(203, 310, 122, 21);
 		frmAlmacnSupermercado.getContentPane().add(btnGuardarProd);
 		
 		JButton btnActualizarProd = new JButton("ACTUALIZAR");
@@ -343,7 +305,7 @@ public class App {
 				    model.addRow(row);
 		    }
 		}});
-		btnActualizarProd.setBounds(371, 461, 122, 21);
+		btnActualizarProd.setBounds(365, 310, 122, 21);
 		frmAlmacnSupermercado.getContentPane().add(btnActualizarProd);
 		
 		
@@ -366,7 +328,7 @@ public class App {
 				    model.addRow(row);
 			}
 		}});
-		btnBorrarProd.setBounds(529, 461, 122, 21);
+		btnBorrarProd.setBounds(529, 310, 122, 21);
 		frmAlmacnSupermercado.getContentPane().add(btnBorrarProd);
 		
 		JLabel lblCategoria = new JLabel("ELIGE LA OPCIÓN:");
