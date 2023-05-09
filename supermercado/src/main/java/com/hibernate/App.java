@@ -271,7 +271,7 @@ public class App {
 					    model.addRow(row);
 			}
 		}});
-		btnGuardarProd.setBounds(203, 310, 122, 21);
+		btnGuardarProd.setBounds(207, 339, 122, 21);
 		frmAlmacnSupermercado.getContentPane().add(btnGuardarProd);
 		
 		JButton btnActualizarProd = new JButton("ACTUALIZAR");
@@ -305,7 +305,7 @@ public class App {
 				    model.addRow(row);
 		    }
 		}});
-		btnActualizarProd.setBounds(365, 310, 122, 21);
+		btnActualizarProd.setBounds(364, 339, 122, 21);
 		frmAlmacnSupermercado.getContentPane().add(btnActualizarProd);
 		
 		
@@ -328,7 +328,7 @@ public class App {
 				    model.addRow(row);
 			}
 		}});
-		btnBorrarProd.setBounds(529, 310, 122, 21);
+		btnBorrarProd.setBounds(527, 339, 122, 21);
 		frmAlmacnSupermercado.getContentPane().add(btnBorrarProd);
 		
 		JLabel lblCategoria = new JLabel("ELIGE LA OPCIÓN:");
@@ -386,6 +386,10 @@ public class App {
 		textFieldEnStock.setColumns(10);
 		textFieldEnStock.setBounds(384, 267, 180, 19);
 		frmAlmacnSupermercado.getContentPane().add(textFieldEnStock);
+		
+		JLabel lblCaducidad = new JLabel("CADUCIDAD:");
+		lblCaducidad.setBounds(269, 298, 105, 15);
+		frmAlmacnSupermercado.getContentPane().add(lblCaducidad);
 		
 		
 		
