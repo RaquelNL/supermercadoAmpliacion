@@ -1,5 +1,7 @@
 package com.hibernate.model;
 
+import java.sql.Date;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -31,17 +33,20 @@ public class Producto {
 	@JoinColumn(name = "categoria_id", referencedColumnName = "id", nullable = false)
 	private Categoria categoria;
 	
+	@Column(name="caducidad")
+	private Date caducidad;
 	
 	public Producto() {
 		
 	}
 	
-	public Producto(String nomProd, Categoria categoria, double precio, int stock ) {
+	public Producto(String nomProd, Categoria categoria, double precio, int stock, Date caducidad ) {
 		super();
 		this.nomProd = nomProd;
 		this.categoria = categoria;
 		this.precio = precio;
 		this.stock = stock;
+		this.caducidad = caducidad;
 		
 	}
 
@@ -83,6 +88,14 @@ public class Producto {
 
 	public void setCategoria(Categoria categoria) {
 		this.categoria = categoria;
+	}
+
+	public Date getCaducidad() {
+		return caducidad;
+	}
+
+	public void setCaducidad(Date caducidad) {
+		this.caducidad = caducidad;
 	}
 
 }

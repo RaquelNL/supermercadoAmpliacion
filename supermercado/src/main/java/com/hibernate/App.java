@@ -19,6 +19,9 @@ import javax.swing.JComboBox;
 import javax.swing.JTable;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
+import javax.swing.UIManager;
+import javax.swing.UIManager.LookAndFeelInfo;
+
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.ItemListener;
@@ -49,6 +52,18 @@ public class App {
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
+		
+		try {
+		    for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+		        if ("Nimbus".equals(info.getName())) {
+		            UIManager.setLookAndFeel(info.getClassName());
+		            break;
+		        }
+		    }
+		} catch (Exception e) {
+		    // If Nimbus is not available, you can set the GUI to another look and feel.
+		}
+		
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -104,6 +119,7 @@ public class App {
 		model.addColumn("Nombre");
 		model.addColumn("Precio");
 		model.addColumn("En Stock");
+		model.addColumn("Caducidad");
 		
 	
 		JComboBox comboBoxCat = new JComboBox();
@@ -113,12 +129,13 @@ public class App {
 					model.setRowCount(0);
 					List<Producto> productos = productoDAO.selectAllBebidas();
 					for (Producto p : productos) {
-					    Object[] row = new Object[5];
+					    Object[] row = new Object[6];
 					    row[0] = p.getCodprod();
 					    row[1] = p.getCategoria().getNombre();
 					    row[2] = p.getNomProd();
 					    row[3] = p.getPrecio();
 					    row[4] = p.getStock();
+					    row[5] = p.getCaducidad();
 					    model.addRow(row);
 					   
 					    
@@ -128,12 +145,13 @@ public class App {
 					model.setRowCount(0);
 					List<Producto> productos = productoDAO.selectAllCarnes();
 					for (Producto p : productos) {
-					    Object[] row = new Object[5];
+					    Object[] row = new Object[6];
 					    row[0] = p.getCodprod();
 					    row[1] = p.getCategoria().getNombre();
 					    row[2] = p.getNomProd();
 					    row[3] = p.getPrecio();
 					    row[4] = p.getStock();
+					    row[5] = p.getCaducidad();
 					    model.addRow(row);
 
 					   
@@ -142,12 +160,13 @@ public class App {
 					model.setRowCount(0);
 					List<Producto> productos = productoDAO.selectAllPescados();
 					for (Producto p : productos) {
-					    Object[] row = new Object[5];
+					    Object[] row = new Object[6];
 					    row[0] = p.getCodprod();
 					    row[1] = p.getCategoria().getNombre();
 					    row[2] = p.getNomProd();
 					    row[3] = p.getPrecio();
 					    row[4] = p.getStock();
+					    row[5] = p.getCaducidad();
 					    model.addRow(row);
 					   
 					}
@@ -175,12 +194,13 @@ public class App {
 					model.setRowCount(0);
 					List<Producto> productos = productoDAO.selectAllProducto();
 					for (Producto p : productos) {
-					    Object[] row = new Object[5];
+					    Object[] row = new Object[6];
 					    row[0] = p.getCodprod();
 					    row[1] = p.getCategoria().getNombre();
 					    row[2] = p.getNomProd();
 					    row[3] = p.getPrecio();
 					    row[4] = p.getStock();
+					    row[5] = p.getCaducidad();
 					    model.addRow(row);
 
 					}
@@ -198,12 +218,13 @@ public class App {
 					model.setRowCount(0);
 					List<Producto> productos = productoDAO.selectProductoSinStock();
 					for (Producto p : productos) {
-					    Object[] row = new Object[5];
+					    Object[] row = new Object[6];
 					    row[0] = p.getCodprod();
 					    row[1] = p.getCategoria().getNombre();
 					    row[2] = p.getNomProd();
 					    row[3] = p.getPrecio();
 					    row[4] = p.getStock();
+					    row[5] = p.getCaducidad();
 					    model.addRow(row);
 					   
 					   
@@ -228,12 +249,13 @@ public class App {
 				int index = table.getSelectedRow();
 				if (index != -1) {
 					DefaultTableModel model = (DefaultTableModel) table.getModel();
-				    if (model instanceof DefaultTableModel && model.getColumnCount() == 5) {
+				    if (model instanceof DefaultTableModel && model.getColumnCount() == 6) {
 				        textFieldId.setText(model.getValueAt(index, 0).toString());
 				        comboBoxCat.setToolTipText(model.getValueAt(index, 1).toString());
 				        textFieldNomProd.setText(model.getValueAt(index, 2).toString());
 				        textFieldPrecio.setText(model.getValueAt(index, 3).toString());
 				        textFieldEnStock.setText(model.getValueAt(index, 4).toString());
+				        //calendario
 				    }
 				 }
 			}
@@ -253,21 +275,22 @@ public class App {
 		        Categoria c = categoriaDAO.selectcategoriaById(index);
 		        
 						
-				Producto producto = new Producto(textFieldNomProd.getText(), c,
-                        Double.parseDouble(textFieldPrecio.getText()),
-                        Integer.parseInt(textFieldEnStock.getText()));
-					productoDAO.insertProducto(producto);
+//				Producto producto = new Producto(textFieldNomProd.getText(), c,
+//                        Double.parseDouble(textFieldPrecio.getText()),
+//                        Integer.parseInt(textFieldEnStock.getText())); //calendario 
+					//productoDAO.insertProducto(producto);
 					JOptionPane.showMessageDialog(null, "Producto añadido");
 					limpiarTexto();
 					model.setRowCount(0);
 					List<Producto> productos = productoDAO.selectAllProducto();
 					for (Producto p : productos) {
-					    Object[] row = new Object[5];
+					    Object[] row = new Object[6];
 					    row[0] = p.getCodprod();
 					    row[1] = p.getCategoria().getNombre();
 					    row[2] = p.getNomProd();
 					    row[3] = p.getPrecio();
 					    row[4] = p.getStock();
+					    row[5] = p.getCaducidad();
 					    model.addRow(row);
 			}
 		}});
@@ -290,18 +313,20 @@ public class App {
 		        
 		        productoActualizar.setPrecio(Double.parseDouble(textFieldPrecio.getText()));
 		        productoActualizar.setStock(Integer.parseInt(textFieldEnStock.getText()));
+		        //productoActualizar.setCaducidad(//calendario);
 		        productoDAO.updateProducto(productoActualizar);
 		        JOptionPane.showMessageDialog(null, "Producto actualizado");
 		        limpiarTexto();
 		        model.setRowCount(0);
 				List<Producto> productos = productoDAO.selectAllProducto();
 				for (Producto p : productos) {
-				    Object[] row = new Object[5];
+				    Object[] row = new Object[6];
 				    row[0] = p.getCodprod();
 				    row[1] = p.getCategoria().getNombre();
 				    row[2] = p.getNomProd();
 				    row[3] = p.getPrecio();
 				    row[4] = p.getStock();
+				    
 				    model.addRow(row);
 		    }
 		}});
