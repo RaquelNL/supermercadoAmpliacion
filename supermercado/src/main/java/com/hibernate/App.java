@@ -65,6 +65,11 @@ public class App {
 	Pattern patPrecio = Pattern.compile("^\\d+(?:\\.\\d{1,2})?$");
 	Pattern patStock= Pattern.compile("^\\d$");
 	
+	String formatearFecha(LocalDate caducidadSQL) {
+		DateTimeFormatter formatoFecha = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+	    String caducidadFormat = caducidadSQL.format(formatoFecha);
+		return caducidadFormat;
+	}
 	
 	/**
 	 * Launch the application.
@@ -159,7 +164,15 @@ public class App {
 					    row[2] = p.getNomProd();
 					    row[3] = p.getPrecio();
 					    row[4] = p.getStock();
-					    row[5] = p.getCaducidad();
+					    
+					    LocalDate caducidadSQL = p.getCaducidad();
+					    row[5] = caducidadSQL;
+					    
+					    if(caducidadSQL != null) {
+					    	String caducidadFormat = formatearFecha(caducidadSQL);
+						    row[5] = caducidadFormat;
+					    }
+					    
 					    model.addRow(row);
 					   
 					    
@@ -175,11 +188,19 @@ public class App {
 					    row[2] = p.getNomProd();
 					    row[3] = p.getPrecio();
 					    row[4] = p.getStock();
-					    row[5] = p.getCaducidad();
+					    
+					    LocalDate caducidadSQL = p.getCaducidad();
+					    row[5] = caducidadSQL;
+					    
+					    if(caducidadSQL != null) {
+					    	String caducidadFormat = formatearFecha(caducidadSQL);
+						    row[5] = caducidadFormat;
+					    }
+					
 					    model.addRow(row);
 
-					   
 					}
+					
 				} else {
 					model.setRowCount(0);
 					List<Producto> productos = productoDAO.selectAllPescados();
@@ -190,7 +211,14 @@ public class App {
 					    row[2] = p.getNomProd();
 					    row[3] = p.getPrecio();
 					    row[4] = p.getStock();
-					    row[5] = p.getCaducidad();
+					    
+					    LocalDate caducidadSQL = p.getCaducidad();
+					    row[5] = caducidadSQL;
+					    
+					    if(caducidadSQL != null) {
+					    	String caducidadFormat = formatearFecha(caducidadSQL);
+						    row[5] = caducidadFormat;
+					    }
 					    model.addRow(row);
 					   
 					}
@@ -226,32 +254,12 @@ public class App {
 					    row[4] = p.getStock();
 					    
 					    LocalDate caducidadSQL = p.getCaducidad();
+					    row[5] = caducidadSQL;
 					    
 					    if(caducidadSQL != null) {
-					    	DateTimeFormatter formatoFecha = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-						    String caducidadFormat = caducidadSQL.format(formatoFecha);
-						    
-						    
+					    	String caducidadFormat = formatearFecha(caducidadSQL);
 						    row[5] = caducidadFormat;
-					    	
-					    } else {
-					    	row[5] = caducidadSQL;
 					    }
-					    
-					    
-					    
-					    
-					    //SimpleDateFormat formatoFecha = new SimpleDateFormat("dd/MM/yyyy");
-				        //DateTimeFormatter formatoFecha = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-				        
-			            //Date fecha = formatoFecha.parse(fechaString);
-			        	//LocalDate fechacaducidad = LocalDate.parse(caducidadSQL, formatoFecha);
-			            //calendario.setDate(fecha);
-			        	
-				        
-					    
-					    
-					    //row[5] = p.getCaducidad();
 			        	
 					    model.addRow(row);
 
@@ -275,7 +283,14 @@ public class App {
 					    row[2] = p.getNomProd();
 					    row[3] = p.getPrecio();
 					    row[4] = p.getStock();
-					    row[5] = p.getCaducidad();
+					    
+					    LocalDate caducidadSQL = p.getCaducidad();
+					    row[5] = caducidadSQL;
+					    
+					    if(caducidadSQL != null) {
+					    	String caducidadFormat = formatearFecha(caducidadSQL);
+						    row[5] = caducidadFormat;
+					    }
 					    model.addRow(row);
 					   
 					}
@@ -293,7 +308,14 @@ public class App {
 					    row[2] = p.getNomProd();
 					    row[3] = p.getPrecio();
 					    row[4] = p.getStock();
-					    row[5] = p.getCaducidad();
+					    
+					    LocalDate caducidadSQL = p.getCaducidad();
+					    row[5] = caducidadSQL;
+					    
+					    if(caducidadSQL != null) {
+					    	String caducidadFormat = formatearFecha(caducidadSQL);
+						    row[5] = caducidadFormat;
+					    }
 					    model.addRow(row);
 					}
 				}
@@ -322,12 +344,15 @@ public class App {
 				        textFieldPrecio.setText(model.getValueAt(index, 3).toString());
 				        textFieldEnStock.setText(model.getValueAt(index, 4).toString());
 				        String fechaString = model.getValueAt(index, 5).toString();
-				        //SimpleDateFormat formatoFecha = new SimpleDateFormat("dd/MM/yyyy");
+				    
 				        DateTimeFormatter formatoFecha = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 				        try {
-				            //Date fecha = formatoFecha.parse(fechaString);
 				        	LocalDate fecha = LocalDate.parse(fechaString, formatoFecha);
-				            //calendario.setDate(fecha);
+				        	
+				        	SimpleDateFormat formatoFechaChooser = new SimpleDateFormat("dd/MM/yyyy");
+				        	calendario.setDateFormatString("dd/MM/yyyy");
+				            calendario.setDate(formatoFechaChooser.parse(formatoFechaChooser.format(java.sql.Date.valueOf(fecha))));
+
 				        	calendario.setDate(java.sql.Date.valueOf(fecha));
 				        } catch (Exception s) {
 				            
