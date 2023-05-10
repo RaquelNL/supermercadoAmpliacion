@@ -253,14 +253,15 @@ public class App {
 					}
 					
 				} else {
-					SimpleDateFormat formatoFecha = new SimpleDateFormat("dd/MM/yyyy");
-					Date fecha = calendario.getDate();
-					String fechaFormateada = formatoFecha.format(fecha);
+					//SimpleDateFormat formatoFecha = new SimpleDateFormat("dd/MM/yyyy");
+					//Date fecha = calendario.getDate();
+					//LocalDate fechaCad = fecha.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+					//String fechaFormateada = formatoFecha.format(fecha);
 
 					LocalDate hoy = LocalDate.now();
 					 
 
-					if (caducidad.isEqual(hoy)) {
+					//if (fechaCad.isEqual(hoy)) {
 						model.setRowCount(0);
 						List<Producto> productos = productoDAO.selectProductosCaducados(hoy);
 						for (Producto p : productos) {
@@ -272,8 +273,8 @@ public class App {
 						    row[4] = p.getStock();
 						    row[5] = p.getCaducidad();
 						    model.addRow(row);
-					}
-					}
+						}
+					//}
 				}
 					
 				

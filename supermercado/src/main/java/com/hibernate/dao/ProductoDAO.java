@@ -1,6 +1,9 @@
 package com.hibernate.dao;
 
 import java.time.LocalDate;
+
+import java.sql.Date;
+
 import java.util.List;
 
 import org.hibernate.Session;
@@ -209,13 +212,18 @@ public class ProductoDAO {
 	 * SELECCIÓN PRODUCTOS CADUCADOS
 	 */
 	
-	public List<Producto> selectProductosCaducados(LocalDate fechaCaducidad) {
+	public List<Producto> selectProductosCaducados(LocalDate fechaActual) {
 		Transaction transaction = null;
 		List<Producto> productos = null;
 		Producto p = null;
+		
+		//Date fechaActualToSQL = Date.valueOf(fechaActual);
+		
 		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
 			transaction = session.beginTransaction();
-			productos = session.createQuery("select p.id from Producto p join  p.categoria c where p.caducidad = :fechaCaducidad", Producto.class).getResultList();
+			productos = session.createQuery("select p from Producto p join  p.categoria c where p.caducidad <= :fechaActual", Producto.class)
+				.setParameter("fechaActual", fechaActual)
+				.getResultList();
 			transaction.commit();
 		} catch (Exception e) {
 			if (transaction != null) {
