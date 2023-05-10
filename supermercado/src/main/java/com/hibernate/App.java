@@ -2,7 +2,10 @@ package com.hibernate;
 
 import java.awt.Component;
 import java.awt.EventQueue;
+import java.util.Date;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -11,6 +14,7 @@ import javax.swing.table.DefaultTableModel;
 
 import com.hibernate.model.Categoria;
 import com.hibernate.model.Producto;
+import com.toedter.calendar.JCalendar;
 import com.hibernate.dao.CategoriaDAO;
 import com.hibernate.dao.ProductoDAO;
 
@@ -24,11 +28,20 @@ import javax.swing.UIManager.LookAndFeelInfo;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.Period;
+import java.time.ZoneId;
+import java.time.chrono.ChronoZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.awt.event.ItemListener;
 import java.awt.event.ItemEvent;
 import javax.swing.DefaultComboBoxModel;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import com.toedter.calendar.JDateChooser;
 
 public class App {
 
@@ -47,7 +60,11 @@ public class App {
 		textFieldEnStock.setText("");
 	}
 
-
+	Pattern patNom = Pattern.compile("^[A-Za-z]{1,50}$");
+	Pattern patPrecio = Pattern.compile("^\\d+(?:\\.\\d{1,2})?$");
+	Pattern patStock= Pattern.compile("^\\d$");
+	
+	
 	/**
 	 * Launch the application.
 	 */
@@ -90,8 +107,7 @@ public class App {
 		
 		ProductoDAO productoDAO = new ProductoDAO();
 		CategoriaDAO categoriaDAO = new CategoriaDAO();
-		
-		
+
 		
 		frmAlmacnSupermercado = new JFrame();
 		frmAlmacnSupermercado.setTitle("Almacén Supermercado");
@@ -104,6 +120,13 @@ public class App {
 		lblEligeLaCategoria.setBounds(47, 118, 157, 13);
 		frmAlmacnSupermercado.getContentPane().add(lblEligeLaCategoria);
 
+		JDateChooser calendario = new JDateChooser();
+		calendario.setBounds(384, 298, 180, 27);
+		frmAlmacnSupermercado.getContentPane().add(calendario);
+
+		
+		
+		
 		JComboBox comboBoxIdCat = new JComboBox();
 		comboBoxIdCat.addItem(new Categoria(1, "Bebidas"));
 		comboBoxIdCat.addItem(new Categoria(2, "Carnes"));
@@ -255,7 +278,14 @@ public class App {
 				        textFieldNomProd.setText(model.getValueAt(index, 2).toString());
 				        textFieldPrecio.setText(model.getValueAt(index, 3).toString());
 				        textFieldEnStock.setText(model.getValueAt(index, 4).toString());
-				        //calendario
+				        String fechaString = model.getValueAt(index, 5).toString();
+				        SimpleDateFormat formatoFecha = new SimpleDateFormat("dd/MM/yyyy");
+				        try {
+				            Date fecha = formatoFecha.parse(fechaString);
+				            calendario.setDate(fecha);
+				        } catch (Exception s) {
+				            
+				        }
 				    }
 				 }
 			}
@@ -274,11 +304,39 @@ public class App {
 		        int index = Integer.parseInt(partes[0].trim());
 		        Categoria c = categoriaDAO.selectcategoriaById(index);
 		        
+		        Date fecha = calendario.getDate();
+		        calendario.setDateFormatString("dd/MM/yyyy");
+		        LocalDate caducidad = fecha.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+		        
 						
-//				Producto producto = new Producto(textFieldNomProd.getText(), c,
-//                        Double.parseDouble(textFieldPrecio.getText()),
-//                        Integer.parseInt(textFieldEnStock.getText())); //calendario 
-					//productoDAO.insertProducto(producto);
+				Producto producto = new Producto(textFieldNomProd.getText(), c,
+                        Double.parseDouble(textFieldPrecio.getText()),
+                        Integer.parseInt(textFieldEnStock.getText()), caducidad); 
+					productoDAO.insertProducto(producto);
+		        
+//		        Matcher matNom = patNom.matcher(TextFieldNomProd.getText());
+//		    	Matcher matPrecio = patPrecio.matcher(TextFieldPrecio.getText());
+//		    	Matcher matStock = patStock.matcher(TextFieldEnStock.getText());
+//		    	
+//		    	if (!matNom.matches()) {
+//		    		JOptionPane.showMessageDialog(null, "El nombre es incorrecto");
+//		    	} else if (!patPrecio.matches()) {
+//		    		JOptionPane.showMessageDialog(null, "El precio es incorrecto");
+//		    	} else if (!patStock.matches()) {
+//		    		JOptionPane.showMessageDialog(null, "El stock es incorrecto");
+//		    	} else {
+//
+//		    		try {
+//		    			LocalDate fechaNac = LocalDate
+//		    					.parse(textFieldDob2.getText() + "-" + textFieldDob1.getText() + "-" + dobTextField.getText());
+//		    			
+//		    			if (!(fechaNac.getYear() >= 18)) {
+//		    				//Poner la fecha en rojo
+//		    			} else {
+//		    				DateTimeFormatter fechaFormateada = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+//
+//		    			}
+		        
 					JOptionPane.showMessageDialog(null, "Producto añadido");
 					limpiarTexto();
 					model.setRowCount(0);
@@ -293,7 +351,7 @@ public class App {
 					    row[5] = p.getCaducidad();
 					    model.addRow(row);
 			}
-		}});
+		    		}});
 		btnGuardarProd.setBounds(207, 339, 122, 21);
 		frmAlmacnSupermercado.getContentPane().add(btnGuardarProd);
 		
@@ -310,10 +368,14 @@ public class App {
 		        Categoria c = categoriaDAO.selectcategoriaById(index);
 		        productoActualizar.setCategoria(c);
 		       
+		     
 		        
 		        productoActualizar.setPrecio(Double.parseDouble(textFieldPrecio.getText()));
 		        productoActualizar.setStock(Integer.parseInt(textFieldEnStock.getText()));
-		        //productoActualizar.setCaducidad(//calendario);
+		        Date fecha = calendario.getDate();
+		        calendario.setDateFormatString("dd/MM/yyyy");
+		        LocalDate caducidad = fecha.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+		        productoActualizar.setCaducidad(caducidad);
 		        productoDAO.updateProducto(productoActualizar);
 		        JOptionPane.showMessageDialog(null, "Producto actualizado");
 		        limpiarTexto();
@@ -326,7 +388,7 @@ public class App {
 				    row[2] = p.getNomProd();
 				    row[3] = p.getPrecio();
 				    row[4] = p.getStock();
-				    
+				    row[5] = p.getCaducidad();
 				    model.addRow(row);
 		    }
 		}});
@@ -344,12 +406,13 @@ public class App {
 				model.setRowCount(0);
 				List<Producto> productos = productoDAO.selectAllProducto();
 				for (Producto p : productos) {
-				    Object[] row = new Object[5];
+				    Object[] row = new Object[6];
 				    row[0] = p.getCodprod();
 				    row[1] = p.getCategoria().getNombre();
 				    row[2] = p.getNomProd();
 				    row[3] = p.getPrecio();
 				    row[4] = p.getStock();
+				    row[5] = p.getCaducidad();
 				    model.addRow(row);
 			}
 		}});
@@ -363,11 +426,11 @@ public class App {
 		
 		
 		JLabel lblOferta = new JLabel("ELIGE LA OFERTA:");
-		lblOferta.setBounds(47, 417, 157, 13);
+		lblOferta.setBounds(47, 187, 157, 13);
 		frmAlmacnSupermercado.getContentPane().add(lblOferta);
 		
 		JComboBox comboBoxOferta = new JComboBox();
-		comboBoxOferta.setBounds(47, 444, 122, 21);
+		comboBoxOferta.setBounds(47, 212, 122, 21);
 		frmAlmacnSupermercado.getContentPane().add(comboBoxOferta);
 		
 		JLabel lblIdProd = new JLabel("ID:");
@@ -393,23 +456,23 @@ public class App {
 		textFieldId = new JTextField();
 		textFieldId.setEnabled(false);
 		textFieldId.setEditable(false);
-		textFieldId.setBounds(384, 155, 180, 19);
+		textFieldId.setBounds(384, 155, 180, 27);
 		frmAlmacnSupermercado.getContentPane().add(textFieldId);
 		textFieldId.setColumns(10);
 		
 		textFieldNomProd = new JTextField();
 		textFieldNomProd.setColumns(10);
-		textFieldNomProd.setBounds(384, 217, 180, 19);
+		textFieldNomProd.setBounds(384, 217, 180, 27);
 		frmAlmacnSupermercado.getContentPane().add(textFieldNomProd);
 		
 		textFieldPrecio = new JTextField();
 		textFieldPrecio.setColumns(10);
-		textFieldPrecio.setBounds(384, 242, 180, 19);
+		textFieldPrecio.setBounds(384, 242, 180, 27);
 		frmAlmacnSupermercado.getContentPane().add(textFieldPrecio);
 		
 		textFieldEnStock = new JTextField();
 		textFieldEnStock.setColumns(10);
-		textFieldEnStock.setBounds(384, 267, 180, 19);
+		textFieldEnStock.setBounds(384, 267, 180, 27);
 		frmAlmacnSupermercado.getContentPane().add(textFieldEnStock);
 		
 		JLabel lblCaducidad = new JLabel("CADUCIDAD:");
@@ -417,10 +480,28 @@ public class App {
 		frmAlmacnSupermercado.getContentPane().add(lblCaducidad);
 		
 		
-		
-		
-		
-		
-		
+		calendario.addPropertyChangeListener(new PropertyChangeListener() {
+
+			
+			public void propertyChange(PropertyChangeEvent evt) {
+				if (evt != null) {
+					try {
+						SimpleDateFormat Formato = new SimpleDateFormat("dd/MM/yyyy");
+						Date date = calendario.getDate();
+						DateTimeFormatter fmt = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+						LocalDate hoy = LocalDate.now();
+					
+						//Period ageCompare = Period.between(calendario, hoy);
+
+//						if (ageCompare.getDays() == hoy) {
+//							JOptionPane.showMessageDialog(null, "El producto caduca hoy");
+//							calendario.setCalendar(null);
+//						}
+					} catch (NullPointerException e) {
+						System.out.println("Fecha mal puesta");
+					}
+				}
+			}
+		});
 	}
 }

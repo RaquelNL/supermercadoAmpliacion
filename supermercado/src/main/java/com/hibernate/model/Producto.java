@@ -1,6 +1,7 @@
 package com.hibernate.model;
 
 import java.sql.Date;
+import java.time.LocalDate;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -34,13 +35,14 @@ public class Producto {
 	private Categoria categoria;
 	
 	@Column(name="caducidad")
-	private Date caducidad;
+	private LocalDate caducidad;
+	
 	
 	public Producto() {
 		
 	}
 	
-	public Producto(String nomProd, Categoria categoria, double precio, int stock, Date caducidad ) {
+	public Producto(String nomProd, Categoria categoria, double precio, int stock, LocalDate caducidad) {
 		super();
 		this.nomProd = nomProd;
 		this.categoria = categoria;
@@ -90,12 +92,13 @@ public class Producto {
 		this.categoria = categoria;
 	}
 
-	public Date getCaducidad() {
+	public LocalDate getCaducidad() {
 		return caducidad;
 	}
 
-	public void setCaducidad(Date caducidad) {
+	public void setCaducidad(LocalDate caducidad) {
 		this.caducidad = caducidad;
 	}
+	
 
 }
