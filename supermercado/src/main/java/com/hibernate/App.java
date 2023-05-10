@@ -224,7 +224,35 @@ public class App {
 					    row[2] = p.getNomProd();
 					    row[3] = p.getPrecio();
 					    row[4] = p.getStock();
-					    row[5] = p.getCaducidad();
+					    
+					    LocalDate caducidadSQL = p.getCaducidad();
+					    
+					    if(caducidadSQL != null) {
+					    	DateTimeFormatter formatoFecha = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+						    String caducidadFormat = caducidadSQL.format(formatoFecha);
+						    
+						    
+						    row[5] = caducidadFormat;
+					    	
+					    } else {
+					    	row[5] = caducidadSQL;
+					    }
+					    
+					    
+					    
+					    
+					    //SimpleDateFormat formatoFecha = new SimpleDateFormat("dd/MM/yyyy");
+				        //DateTimeFormatter formatoFecha = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+				        
+			            //Date fecha = formatoFecha.parse(fechaString);
+			        	//LocalDate fechacaducidad = LocalDate.parse(caducidadSQL, formatoFecha);
+			            //calendario.setDate(fecha);
+			        	
+				        
+					    
+					    
+					    //row[5] = p.getCaducidad();
+			        	
 					    model.addRow(row);
 
 					}
@@ -253,28 +281,21 @@ public class App {
 					}
 					
 				} else {
-					//SimpleDateFormat formatoFecha = new SimpleDateFormat("dd/MM/yyyy");
-					//Date fecha = calendario.getDate();
-					//LocalDate fechaCad = fecha.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-					//String fechaFormateada = formatoFecha.format(fecha);
-
+					
 					LocalDate hoy = LocalDate.now();
 					 
-
-					//if (fechaCad.isEqual(hoy)) {
-						model.setRowCount(0);
-						List<Producto> productos = productoDAO.selectProductosCaducados(hoy);
-						for (Producto p : productos) {
-						    Object[] row = new Object[6];
-						    row[0] = p.getCodprod();
-						    row[1] = p.getCategoria().getNombre();
-						    row[2] = p.getNomProd();
-						    row[3] = p.getPrecio();
-						    row[4] = p.getStock();
-						    row[5] = p.getCaducidad();
-						    model.addRow(row);
-						}
-					//}
+					model.setRowCount(0);
+					List<Producto> productos = productoDAO.selectProductosCaducados(hoy);
+					for (Producto p : productos) {
+					    Object[] row = new Object[6];
+					    row[0] = p.getCodprod();
+					    row[1] = p.getCategoria().getNombre();
+					    row[2] = p.getNomProd();
+					    row[3] = p.getPrecio();
+					    row[4] = p.getStock();
+					    row[5] = p.getCaducidad();
+					    model.addRow(row);
+					}
 				}
 					
 				
@@ -301,10 +322,13 @@ public class App {
 				        textFieldPrecio.setText(model.getValueAt(index, 3).toString());
 				        textFieldEnStock.setText(model.getValueAt(index, 4).toString());
 				        String fechaString = model.getValueAt(index, 5).toString();
-				        SimpleDateFormat formatoFecha = new SimpleDateFormat("dd/MM/yyyy");
+				        //SimpleDateFormat formatoFecha = new SimpleDateFormat("dd/MM/yyyy");
+				        DateTimeFormatter formatoFecha = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 				        try {
-				            Date fecha = formatoFecha.parse(fechaString);
-				            calendario.setDate(fecha);
+				            //Date fecha = formatoFecha.parse(fechaString);
+				        	LocalDate fecha = LocalDate.parse(fechaString, formatoFecha);
+				            //calendario.setDate(fecha);
+				        	calendario.setDate(java.sql.Date.valueOf(fecha));
 				        } catch (Exception s) {
 				            
 				        }
