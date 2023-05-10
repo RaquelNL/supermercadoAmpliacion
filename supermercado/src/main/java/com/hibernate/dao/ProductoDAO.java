@@ -1,5 +1,6 @@
 package com.hibernate.dao;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.hibernate.Session;
@@ -195,6 +196,26 @@ public class ProductoDAO {
 		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
 			transaction = session.beginTransaction();
 			productos = session.createQuery("select p.id from Producto p join  p.categoria c where p.stock = 0", Producto.class).getResultList();
+			transaction.commit();
+		} catch (Exception e) {
+			if (transaction != null) {
+				transaction.rollback();
+			}
+		}
+		return productos;
+	}
+	
+	/**
+	 * SELECCIÓN PRODUCTOS CADUCADOS
+	 */
+	
+	public List<Producto> selectProductosCaducados(LocalDate fechaCaducidad) {
+		Transaction transaction = null;
+		List<Producto> productos = null;
+		Producto p = null;
+		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+			transaction = session.beginTransaction();
+			productos = session.createQuery("select p.id from Producto p join  p.categoria c where p.caducidad = :fechaCaducidad", Producto.class).getResultList();
 			transaction.commit();
 		} catch (Exception e) {
 			if (transaction != null) {

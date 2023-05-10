@@ -52,6 +52,7 @@ public class App {
 	private JTextField textFieldNomProd;
 	private JTextField textFieldPrecio;
 	private JTextField textFieldEnStock;
+	LocalDate caducidad;
 	
 	void limpiarTexto() {
 		textFieldId.setText("");
@@ -207,7 +208,7 @@ public class App {
 		List<Producto> productosSinStock = productoDAO.selectProductoSinStockId();
 		
 		JComboBox comboBoxOpcion = new JComboBox();
-		comboBoxOpcion.setModel(new DefaultComboBoxModel(new String[] {"Todos los Productos", "Según la Categoría", "Productos sin Stock"}));
+		comboBoxOpcion.setModel(new DefaultComboBoxModel(new String[] {"Todos los Productos", "Según la Categoría", "Productos sin Stock", "Productos caducados"}));
 		comboBoxOpcion.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent e) {
 				if (comboBoxOpcion.getSelectedIndex() == 0) {
@@ -233,10 +234,9 @@ public class App {
 					lblEligeLaCategoria.setVisible(true);
 					comboBoxCat.setVisible(true);
 					
-				} else {
+				} else if (comboBoxOpcion.getSelectedIndex() == 2){
 					lblEligeLaCategoria.setVisible(false);
 					comboBoxCat.setVisible(false);
-					
 					
 					model.setRowCount(0);
 					List<Producto> productos = productoDAO.selectProductoSinStock();
@@ -250,15 +250,36 @@ public class App {
 					    row[5] = p.getCaducidad();
 					    model.addRow(row);
 					   
-					   
-					    
 					}
 					
+				} else {
+					SimpleDateFormat formatoFecha = new SimpleDateFormat("dd/MM/yyyy");
+					Date fecha = calendario.getDate();
+					String fechaFormateada = formatoFecha.format(fecha);
+
+					LocalDate hoy = LocalDate.now();
+					 
+
+					if (caducidad.isEqual(hoy)) {
+						model.setRowCount(0);
+						List<Producto> productos = productoDAO.selectProductosCaducados(hoy);
+						for (Producto p : productos) {
+						    Object[] row = new Object[6];
+						    row[0] = p.getCodprod();
+						    row[1] = p.getCategoria().getNombre();
+						    row[2] = p.getNomProd();
+						    row[3] = p.getPrecio();
+						    row[4] = p.getStock();
+						    row[5] = p.getCaducidad();
+						    model.addRow(row);
+					}
+					}
 				}
+					
 				
 			}
 		});
-		comboBoxOpcion.setBounds(47, 65, 122, 21);
+		comboBoxOpcion.setBounds(47, 65, 170, 21);
 		frmAlmacnSupermercado.getContentPane().add(comboBoxOpcion);
 		
 		JScrollPane scrollPane = new JScrollPane();
@@ -480,28 +501,9 @@ public class App {
 		frmAlmacnSupermercado.getContentPane().add(lblCaducidad);
 		
 		
-		calendario.addPropertyChangeListener(new PropertyChangeListener() {
-
-			
-			public void propertyChange(PropertyChangeEvent evt) {
-				if (evt != null) {
-					try {
-						SimpleDateFormat Formato = new SimpleDateFormat("dd/MM/yyyy");
-						Date date = calendario.getDate();
-						DateTimeFormatter fmt = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-						LocalDate hoy = LocalDate.now();
+		
+	
 					
-						//Period ageCompare = Period.between(calendario, hoy);
-
-//						if (ageCompare.getDays() == hoy) {
-//							JOptionPane.showMessageDialog(null, "El producto caduca hoy");
-//							calendario.setCalendar(null);
-//						}
-					} catch (NullPointerException e) {
-						System.out.println("Fecha mal puesta");
-					}
-				}
-			}
-		});
+	
 	}
 }
