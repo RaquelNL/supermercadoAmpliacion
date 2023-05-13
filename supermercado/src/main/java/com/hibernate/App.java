@@ -30,6 +30,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.Period;
@@ -343,20 +344,47 @@ public class App {
 				        textFieldNomProd.setText(model.getValueAt(index, 2).toString());
 				        textFieldPrecio.setText(model.getValueAt(index, 3).toString());
 				        textFieldEnStock.setText(model.getValueAt(index, 4).toString());
-				        String fechaString = model.getValueAt(index, 5).toString();
-				    
-				        DateTimeFormatter formatoFecha = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-				        try {
+				        
+				        if (model.getValueAt(index, 5) != null) {
+				        	
+				        	String fechaString = model.getValueAt(index, 5).toString();
+						    
+					        DateTimeFormatter formatoFecha = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+					        
 				        	LocalDate fecha = LocalDate.parse(fechaString, formatoFecha);
 				        	
 				        	SimpleDateFormat formatoFechaChooser = new SimpleDateFormat("dd/MM/yyyy");
 				        	calendario.setDateFormatString("dd/MM/yyyy");
-				            calendario.setDate(formatoFechaChooser.parse(formatoFechaChooser.format(java.sql.Date.valueOf(fecha))));
+				            try {
+								calendario.setDate(formatoFechaChooser.parse(formatoFechaChooser.format(java.sql.Date.valueOf(fecha))));
+							} catch (ParseException e1) {
+								
+							}
 
-				        	calendario.setDate(java.sql.Date.valueOf(fecha));
-				        } catch (Exception s) {
-				            
+				            calendario.setDate(java.sql.Date.valueOf(fecha));
+				        	
+				        } 
+				        else {
+				        	calendario.setDate(null);
 				        }
+				        
+				        
+				        
+//				        try {
+//				        	String fechaString = model.getValueAt(index, 5).toString();
+//						    
+//					        DateTimeFormatter formatoFecha = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+//					        
+//				        	LocalDate fecha = LocalDate.parse(fechaString, formatoFecha);
+//				        	
+//				        	SimpleDateFormat formatoFechaChooser = new SimpleDateFormat("dd/MM/yyyy");
+//				        	calendario.setDateFormatString("dd/MM/yyyy");
+//				            calendario.setDate(formatoFechaChooser.parse(formatoFechaChooser.format(java.sql.Date.valueOf(fecha))));
+//
+//				        	calendario.setDate(java.sql.Date.valueOf(fecha));
+//				        } catch (Exception s) {
+//				            
+//				        }
 				    }
 				 }
 			}
@@ -419,7 +447,13 @@ public class App {
 					    row[2] = p.getNomProd();
 					    row[3] = p.getPrecio();
 					    row[4] = p.getStock();
-					    row[5] = p.getCaducidad();
+					    LocalDate caducidadSQL = p.getCaducidad();
+					    row[5] = caducidadSQL;
+					    
+					    if(caducidadSQL != null) {
+					    	String caducidadFormat = formatearFecha(caducidadSQL);
+						    row[5] = caducidadFormat;
+					    }
 					    model.addRow(row);
 			}
 		    		}});
@@ -459,7 +493,13 @@ public class App {
 				    row[2] = p.getNomProd();
 				    row[3] = p.getPrecio();
 				    row[4] = p.getStock();
-				    row[5] = p.getCaducidad();
+				    LocalDate caducidadSQL = p.getCaducidad();
+				    row[5] = caducidadSQL;
+				    
+				    if(caducidadSQL != null) {
+				    	String caducidadFormat = formatearFecha(caducidadSQL);
+					    row[5] = caducidadFormat;
+				    }
 				    model.addRow(row);
 		    }
 		}});
