@@ -37,18 +37,22 @@ public class Producto {
 	@Column(name="caducidad")
 	private LocalDate caducidad;
 	
+	@Column(name="oferta")
+	private Double oferta;
 	
 	public Producto() {
 		
 	}
 	
-	public Producto(String nomProd, Categoria categoria, double precio, int stock, LocalDate caducidad) {
+	public Producto(String nomProd, Categoria categoria, double precio, int stock, LocalDate caducidad, Double oferta) {
 		super();
 		this.nomProd = nomProd;
 		this.categoria = categoria;
 		this.precio = precio;
 		this.stock = stock;
 		this.caducidad = caducidad;
+		this.oferta = oferta;
+
 		
 	}
 
@@ -98,6 +102,14 @@ public class Producto {
 
 	public void setCaducidad(LocalDate caducidad) {
 		this.caducidad = caducidad;
+	}
+
+	public Double getOferta() {
+		return oferta;
+	}
+
+	public void setOferta(Double oferta) {
+		this.oferta = oferta;
 	}
 	
 

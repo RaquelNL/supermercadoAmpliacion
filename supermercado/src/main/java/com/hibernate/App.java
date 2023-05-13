@@ -53,7 +53,7 @@ public class App {
 	private JTextField textFieldNomProd;
 	private JTextField textFieldPrecio;
 	private JTextField textFieldEnStock;
-	LocalDate caducidad;
+	
 	
 	void limpiarTexto() {
 		textFieldId.setText("");
@@ -150,8 +150,41 @@ public class App {
 		model.addColumn("Precio");
 		model.addColumn("En Stock");
 		model.addColumn("Caducidad");
+		model.addColumn("Oferta");
 		
-	
+		
+		
+				
+			
+				    
+				
+				
+//				List<Producto> productos = productoDAO.selectAllProducto();
+//				for (Producto p : productos) {
+//					precio = p.getPrecio();
+//				
+//				if (comboBoxOferta.getSelectedIndex() == 1) {
+//					List<Producto> productos = productoDAO.selectAllProducto();
+//					for (Producto p : productos) {
+//						precio = p.getPrecio() * 0.25;
+//					}
+//				} else if (comboBoxOferta.getSelectedIndex() == 2) {
+//					List<Producto> productos = productoDAO.selectAllProducto();
+//					for (Producto p : productos) {
+//						precio = p.getPrecio() * 0.50;
+//					}
+//				} else {
+//					List<Producto> productos = productoDAO.selectAllProducto();
+//					for (Producto p : productos) {
+//						precio = p.getPrecio() * 0.75;
+//					}
+//				}
+		JComboBox comboBoxOferta = new JComboBox();
+		comboBoxOferta.setModel(new DefaultComboBoxModel(new String[] {"Elige la oferta:", "25", "50", "75"}));
+		comboBoxOferta.setBounds(384, 337, 180, 21);
+		frmAlmacnSupermercado.getContentPane().add(comboBoxOferta);
+		
+		
 		JComboBox comboBoxCat = new JComboBox();
 		comboBoxCat.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent e) {
@@ -159,7 +192,7 @@ public class App {
 					model.setRowCount(0);
 					List<Producto> productos = productoDAO.selectAllBebidas();
 					for (Producto p : productos) {
-					    Object[] row = new Object[6];
+					    Object[] row = new Object[7];
 					    row[0] = p.getCodprod();
 					    row[1] = p.getCategoria().getNombre();
 					    row[2] = p.getNomProd();
@@ -173,6 +206,8 @@ public class App {
 					    	String caducidadFormat = formatearFecha(caducidadSQL);
 						    row[5] = caducidadFormat;
 					    }
+					    
+					    row[6] = p.getOferta();
 					    
 					    model.addRow(row);
 					   
@@ -183,7 +218,7 @@ public class App {
 					model.setRowCount(0);
 					List<Producto> productos = productoDAO.selectAllCarnes();
 					for (Producto p : productos) {
-					    Object[] row = new Object[6];
+					    Object[] row = new Object[7];
 					    row[0] = p.getCodprod();
 					    row[1] = p.getCategoria().getNombre();
 					    row[2] = p.getNomProd();
@@ -197,6 +232,8 @@ public class App {
 					    	String caducidadFormat = formatearFecha(caducidadSQL);
 						    row[5] = caducidadFormat;
 					    }
+					    
+					    row[6] = p.getOferta();
 					
 					    model.addRow(row);
 
@@ -206,7 +243,7 @@ public class App {
 					model.setRowCount(0);
 					List<Producto> productos = productoDAO.selectAllPescados();
 					for (Producto p : productos) {
-					    Object[] row = new Object[6];
+					    Object[] row = new Object[7];
 					    row[0] = p.getCodprod();
 					    row[1] = p.getCategoria().getNombre();
 					    row[2] = p.getNomProd();
@@ -220,6 +257,9 @@ public class App {
 					    	String caducidadFormat = formatearFecha(caducidadSQL);
 						    row[5] = caducidadFormat;
 					    }
+					    
+					    row[6] = p.getOferta();
+					    
 					    model.addRow(row);
 					   
 					}
@@ -247,7 +287,7 @@ public class App {
 					model.setRowCount(0);
 					List<Producto> productos = productoDAO.selectAllProducto();
 					for (Producto p : productos) {
-					    Object[] row = new Object[6];
+					    Object[] row = new Object[7];
 					    row[0] = p.getCodprod();
 					    row[1] = p.getCategoria().getNombre();
 					    row[2] = p.getNomProd();
@@ -262,6 +302,8 @@ public class App {
 						    row[5] = caducidadFormat;
 					    }
 			        	
+					    row[6] = p.getOferta();
+					    
 					    model.addRow(row);
 
 					}
@@ -278,7 +320,7 @@ public class App {
 					model.setRowCount(0);
 					List<Producto> productos = productoDAO.selectProductoSinStock();
 					for (Producto p : productos) {
-					    Object[] row = new Object[6];
+					    Object[] row = new Object[7];
 					    row[0] = p.getCodprod();
 					    row[1] = p.getCategoria().getNombre();
 					    row[2] = p.getNomProd();
@@ -292,6 +334,9 @@ public class App {
 					    	String caducidadFormat = formatearFecha(caducidadSQL);
 						    row[5] = caducidadFormat;
 					    }
+					    
+					    row[6] = p.getOferta();
+					    
 					    model.addRow(row);
 					   
 					}
@@ -303,7 +348,7 @@ public class App {
 					model.setRowCount(0);
 					List<Producto> productos = productoDAO.selectProductosCaducados(hoy);
 					for (Producto p : productos) {
-					    Object[] row = new Object[6];
+					    Object[] row = new Object[7];
 					    row[0] = p.getCodprod();
 					    row[1] = p.getCategoria().getNombre();
 					    row[2] = p.getNomProd();
@@ -317,6 +362,9 @@ public class App {
 					    	String caducidadFormat = formatearFecha(caducidadSQL);
 						    row[5] = caducidadFormat;
 					    }
+					    
+					    row[6] = p.getOferta();
+					    
 					    model.addRow(row);
 					}
 				}
@@ -338,7 +386,7 @@ public class App {
 				int index = table.getSelectedRow();
 				if (index != -1) {
 					DefaultTableModel model = (DefaultTableModel) table.getModel();
-				    if (model instanceof DefaultTableModel && model.getColumnCount() == 6) {
+				    if (model instanceof DefaultTableModel && model.getColumnCount() == 7) {
 				        textFieldId.setText(model.getValueAt(index, 0).toString());
 				        comboBoxCat.setToolTipText(model.getValueAt(index, 1).toString());
 				        textFieldNomProd.setText(model.getValueAt(index, 2).toString());
@@ -368,7 +416,7 @@ public class App {
 				        	calendario.setDate(null);
 				        }
 				        
-				        
+				        comboBoxOferta.setToolTipText(model.getValueAt(index, 6).toString());
 				        
 //				        try {
 //				        	String fechaString = model.getValueAt(index, 5).toString();
@@ -404,13 +452,35 @@ public class App {
 		        Categoria c = categoriaDAO.selectcategoriaById(index);
 		        
 		        Date fecha = calendario.getDate();
-		        calendario.setDateFormatString("dd/MM/yyyy");
-		        LocalDate caducidad = fecha.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 		        
-						
+		        LocalDate caducidad = null;
+		        
+		        if (fecha != null) {
+		        	 calendario.setDateFormatString("dd/MM/yyyy");
+				     caducidad = fecha.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+		        }
+		        
+		        Double precioConOferta = null;
+		        double precioInicial = Double.parseDouble(textFieldPrecio.getText());
+		        //String ofertaSeleccionada = (String) comboBoxOferta.getSelectedItem();	
+		        
+		        switch (comboBoxOferta.getSelectedIndex()) {
+			        case 1:
+			        	precioConOferta = precioInicial - (precioInicial * 0.25);
+			            break;
+			            
+			        case 2:
+			        	precioConOferta = precioInicial - (precioInicial * 0.50);
+			            break;
+			            
+			        case 3:
+			        	precioConOferta = precioInicial - (precioInicial * 0.75);
+			            break;
+			    }
+		        
 				Producto producto = new Producto(textFieldNomProd.getText(), c,
-                        Double.parseDouble(textFieldPrecio.getText()),
-                        Integer.parseInt(textFieldEnStock.getText()), caducidad); 
+                        precioInicial,
+                        Integer.parseInt(textFieldEnStock.getText()), caducidad, precioConOferta); 
 					productoDAO.insertProducto(producto);
 		        
 //		        Matcher matNom = patNom.matcher(TextFieldNomProd.getText());
@@ -441,7 +511,7 @@ public class App {
 					model.setRowCount(0);
 					List<Producto> productos = productoDAO.selectAllProducto();
 					for (Producto p : productos) {
-					    Object[] row = new Object[6];
+					    Object[] row = new Object[7];
 					    row[0] = p.getCodprod();
 					    row[1] = p.getCategoria().getNombre();
 					    row[2] = p.getNomProd();
@@ -454,10 +524,13 @@ public class App {
 					    	String caducidadFormat = formatearFecha(caducidadSQL);
 						    row[5] = caducidadFormat;
 					    }
+					    
+					    row[6] = p.getOferta();
+					    
 					    model.addRow(row);
-			}
-		    		}});
-		btnGuardarProd.setBounds(207, 339, 122, 21);
+					}
+		    }});
+		btnGuardarProd.setBounds(206, 399, 122, 21);
 		frmAlmacnSupermercado.getContentPane().add(btnGuardarProd);
 		
 		JButton btnActualizarProd = new JButton("ACTUALIZAR");
@@ -473,21 +546,48 @@ public class App {
 		        Categoria c = categoriaDAO.selectcategoriaById(index);
 		        productoActualizar.setCategoria(c);
 		       
-		     
+		        double precioInicial = Double.parseDouble(textFieldPrecio.getText());
 		        
-		        productoActualizar.setPrecio(Double.parseDouble(textFieldPrecio.getText()));
+		        productoActualizar.setPrecio(precioInicial);
 		        productoActualizar.setStock(Integer.parseInt(textFieldEnStock.getText()));
+		        
+		        
 		        Date fecha = calendario.getDate();
-		        calendario.setDateFormatString("dd/MM/yyyy");
-		        LocalDate caducidad = fecha.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-		        productoActualizar.setCaducidad(caducidad);
+		        
+		        if(fecha != null) {
+		        	calendario.setDateFormatString("dd/MM/yyyy");
+			        LocalDate caducidad = fecha.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+			        productoActualizar.setCaducidad(caducidad);
+		        } else {
+		        	productoActualizar.setCaducidad(null);
+		        }
+		        
+		        Double precioConOferta = null;
+		       
+		        String ofertaSeleccionada = (String) comboBoxOferta.getSelectedItem();	
+		        
+		        switch (comboBoxOferta.getSelectedIndex()) {
+			        case 1:
+			        	precioConOferta = precioInicial - (precioInicial * 0.25);
+			            break;
+			            
+			        case 2:
+			        	precioConOferta = precioInicial - (precioInicial * 0.50);
+			            break;
+			            
+			        case 3:
+			        	precioConOferta = precioInicial - (precioInicial * 0.75);
+			            break;
+			    }
+		        
+		        productoActualizar.setOferta(precioConOferta);
 		        productoDAO.updateProducto(productoActualizar);
 		        JOptionPane.showMessageDialog(null, "Producto actualizado");
 		        limpiarTexto();
 		        model.setRowCount(0);
 				List<Producto> productos = productoDAO.selectAllProducto();
 				for (Producto p : productos) {
-				    Object[] row = new Object[6];
+				    Object[] row = new Object[7];
 				    row[0] = p.getCodprod();
 				    row[1] = p.getCategoria().getNombre();
 				    row[2] = p.getNomProd();
@@ -500,10 +600,13 @@ public class App {
 				    	String caducidadFormat = formatearFecha(caducidadSQL);
 					    row[5] = caducidadFormat;
 				    }
+				    
+				    row[6] = p.getOferta();
+				    
 				    model.addRow(row);
 		    }
 		}});
-		btnActualizarProd.setBounds(364, 339, 122, 21);
+		btnActualizarProd.setBounds(363, 399, 122, 21);
 		frmAlmacnSupermercado.getContentPane().add(btnActualizarProd);
 		
 		
@@ -517,17 +620,18 @@ public class App {
 				model.setRowCount(0);
 				List<Producto> productos = productoDAO.selectAllProducto();
 				for (Producto p : productos) {
-				    Object[] row = new Object[6];
+				    Object[] row = new Object[7];
 				    row[0] = p.getCodprod();
 				    row[1] = p.getCategoria().getNombre();
 				    row[2] = p.getNomProd();
 				    row[3] = p.getPrecio();
 				    row[4] = p.getStock();
 				    row[5] = p.getCaducidad();
+				    row[6] = p.getOferta();
 				    model.addRow(row);
 			}
 		}});
-		btnBorrarProd.setBounds(527, 339, 122, 21);
+		btnBorrarProd.setBounds(526, 399, 122, 21);
 		frmAlmacnSupermercado.getContentPane().add(btnBorrarProd);
 		
 		JLabel lblCategoria = new JLabel("ELIGE LA OPCIÓN:");
@@ -536,13 +640,10 @@ public class App {
 		
 		
 		
-		JLabel lblOferta = new JLabel("ELIGE LA OFERTA:");
-		lblOferta.setBounds(47, 187, 157, 13);
+		JLabel lblOferta = new JLabel("OFERTA:");
+		lblOferta.setBounds(269, 342, 157, 13);
 		frmAlmacnSupermercado.getContentPane().add(lblOferta);
 		
-		JComboBox comboBoxOferta = new JComboBox();
-		comboBoxOferta.setBounds(47, 212, 122, 21);
-		frmAlmacnSupermercado.getContentPane().add(comboBoxOferta);
 		
 		JLabel lblIdProd = new JLabel("ID:");
 		lblIdProd.setBounds(271, 157, 70, 15);
