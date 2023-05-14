@@ -10,6 +10,7 @@ import java.util.regex.Pattern;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
 import com.hibernate.model.Categoria;
@@ -25,6 +26,7 @@ import javax.swing.JComboBox;
 import javax.swing.JTable;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
 
@@ -148,7 +150,7 @@ public class App {
 		comboBoxIdCat.addItem(new Categoria(1, "Bebidas"));
 		comboBoxIdCat.addItem(new Categoria(2, "Carnes"));
 		comboBoxIdCat.addItem(new Categoria(3, "Pescados"));
-		comboBoxIdCat.setModel(new DefaultComboBoxModel(new String[] {"1: Bebidas", "2: Carnes", "3: Pescados"}));
+		comboBoxIdCat.setModel(new DefaultComboBoxModel(new String[] {"Selecciona:", "1: Bebidas", "2: Carnes", "3: Pescados"}));
 		comboBoxIdCat.setBounds(384, 187, 180, 21);
 		frmAlmacnSupermercado.getContentPane().add(comboBoxIdCat);
 		
@@ -165,7 +167,7 @@ public class App {
 		
 
 		JComboBox comboBoxOferta = new JComboBox();
-		comboBoxOferta.setModel(new DefaultComboBoxModel(new String[] {"Elige la oferta:", "25", "50", "75"}));
+		comboBoxOferta.setModel(new DefaultComboBoxModel(new String[] {"Selecciona:", "25", "50", "75"}));
 		comboBoxOferta.setBounds(384, 337, 180, 21);
 		frmAlmacnSupermercado.getContentPane().add(comboBoxOferta);
 		
@@ -173,7 +175,7 @@ public class App {
 		JComboBox comboBoxCat = new JComboBox();
 		comboBoxCat.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent e) {
-				if (comboBoxCat.getSelectedIndex() == 0) {
+				if (comboBoxCat.getSelectedIndex() == 1) {
 					model.setRowCount(0);
 					List<Producto> productos = productoDAO.selectAllBebidas();
 					for (Producto p : productos) {
@@ -200,7 +202,7 @@ public class App {
 					    
 					}
 					
-				} else if (comboBoxCat.getSelectedIndex() == 1) {
+				} else if (comboBoxCat.getSelectedIndex() == 2) {
 					model.setRowCount(0);
 					List<Producto> productos = productoDAO.selectAllCarnes();
 					for (Producto p : productos) {
@@ -258,17 +260,17 @@ public class App {
 			
 			
 		});
-		comboBoxCat.setModel(new DefaultComboBoxModel(new String[] {"Bebidas", "Carnes", "Pescados", "Limpieza"}));
+		comboBoxCat.setModel(new DefaultComboBoxModel(new String[] {"Selecciona:", "Bebidas", "Carnes", "Pescados", "Limpieza"}));
 		comboBoxCat.setVisible(false);
 		comboBoxCat.setBounds(47, 143, 122, 21);
 		frmAlmacnSupermercado.getContentPane().add(comboBoxCat);
 		List<Producto> productosSinStock = productoDAO.selectProductoSinStockId();
 		
 		JComboBox comboBoxOpcion = new JComboBox();
-		comboBoxOpcion.setModel(new DefaultComboBoxModel(new String[] {"Todos los Productos", "Según la Categoría", "Productos sin Stock", "Productos caducados"}));
+		comboBoxOpcion.setModel(new DefaultComboBoxModel(new String[] {"Selecciona:", "Todos los Productos", "Según la Categoría", "Productos sin Stock", "Productos caducados"}));
 		comboBoxOpcion.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent e) {
-				if (comboBoxOpcion.getSelectedIndex() == 0) {
+				if (comboBoxOpcion.getSelectedIndex() == 1) {
 					lblEligeLaCategoria.setVisible(false);
 					comboBoxCat.setVisible(false);
 					
@@ -298,11 +300,11 @@ public class App {
 					}
 					
 					
-				} else if (comboBoxOpcion.getSelectedIndex() == 1) {
+				} else if (comboBoxOpcion.getSelectedIndex() == 2) {
 					lblEligeLaCategoria.setVisible(true);
 					comboBoxCat.setVisible(true);
 					
-				} else if (comboBoxOpcion.getSelectedIndex() == 2){
+				} else if (comboBoxOpcion.getSelectedIndex() == 3){
 					lblEligeLaCategoria.setVisible(false);
 					comboBoxCat.setVisible(false);
 					
@@ -371,6 +373,13 @@ public class App {
 		frmAlmacnSupermercado.getContentPane().add(scrollPane);
 		
 		table = new JTable(model);
+		DefaultTableCellRenderer centrador = new DefaultTableCellRenderer();
+        centrador.setHorizontalAlignment(SwingConstants.CENTER);
+
+        for (int i = 0; i < table.getColumnCount(); i++) {
+            table.getColumnModel().getColumn(i).setCellRenderer(centrador);
+        }
+
 		table.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
