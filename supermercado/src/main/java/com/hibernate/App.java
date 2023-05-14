@@ -48,8 +48,16 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import com.toedter.calendar.JDateChooser;
 
+/**
+ * Clase principal de la aplicación de supermercado
+ * @author raqnl
+ *
+ */
 public class App {
 
+/**
+ * Componentes de Swing
+ */
 	private JFrame frmAlmacnSupermercado;
 	private JTable tableProductos;
 	private JTable table;
@@ -58,7 +66,9 @@ public class App {
 	private JTextField textFieldPrecio;
 	private JTextField textFieldEnStock;
 	
-	
+/**
+ * Función para limpiar el texto al gardar, actualizar o borrar un producto
+ */
 	void limpiarTexto() {
 		textFieldId.setText("");
 		textFieldNomProd.setText("");
@@ -66,10 +76,18 @@ public class App {
 		textFieldEnStock.setText("");
 	}
 
+/**
+ * Expresiones regulares para el control de errores
+ */
 	Pattern patNom = Pattern.compile("^[A-Za-z]{1,50}$");
 	Pattern patPrecio = Pattern.compile("^\\d+(?:\\.\\d{1,2})?$");
 	Pattern patStock= Pattern.compile("^\\d$");
 	
+/**
+ * Función para cambiar el formato de la fecha
+ * @param caducidadSQL
+ * @return caducidadFormat, que es la fecha con el formato cambiado
+ */
 	String formatearFecha(LocalDate caducidadSQL) {
 		DateTimeFormatter formatoFecha = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 	    String caducidadFormat = caducidadSQL.format(formatoFecha);
@@ -116,6 +134,9 @@ public class App {
 	 */
 	private void initialize() {
 		
+/**
+ * Objetos de las clases del paquete com.hibernate.dao
+ */
 		ProductoDAO productoDAO = new ProductoDAO();
 		CategoriaDAO categoriaDAO = new CategoriaDAO();
 		ProveedorDAO proveedorDAO = new ProveedorDAO();
@@ -426,7 +447,9 @@ public class App {
 		scrollPane.setViewportView(table);
 		
 		
-		
+/**
+ * Botón de guardar producto dónde se llama al constructor de Producto para añadir las opciones seleccionadas en los componentes de Swing	
+ */
 		JButton btnGuardarProd = new JButton("GUARDAR");
 		btnGuardarProd.addMouseListener(new MouseAdapter() {
 			@Override
@@ -525,6 +548,11 @@ public class App {
 		btnGuardarProd.setBounds(210, 425, 122, 21);
 		frmAlmacnSupermercado.getContentPane().add(btnGuardarProd);
 		
+		
+/**
+* Botón de actualizar producto dónde se llama al constructor de Producto para añadir las opciones seleccionadas en los componentes de Swing	
+*/
+		
 		JButton btnActualizarProd = new JButton("ACTUALIZAR");
 		btnActualizarProd.addMouseListener(new MouseAdapter() {
 		    @Override
@@ -609,6 +637,9 @@ public class App {
 		frmAlmacnSupermercado.getContentPane().add(btnActualizarProd);
 		
 		
+/**
+ * Botón de borrar Prodcuto
+ */
 		JButton btnBorrarProd = new JButton("BORRAR");
 		btnBorrarProd.addMouseListener(new MouseAdapter() {
 			@Override
@@ -692,7 +723,7 @@ public class App {
 		frmAlmacnSupermercado.getContentPane().add(lblCaducidad);
 		
 		JLabel lblProveedor = new JLabel("PROVEEDOR:");
-		lblProveedor.setBounds(269, 375, 70, 13);
+		lblProveedor.setBounds(269, 375, 82, 13);
 		frmAlmacnSupermercado.getContentPane().add(lblProveedor);
 		
 		
