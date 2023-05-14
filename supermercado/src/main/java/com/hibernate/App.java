@@ -14,9 +14,11 @@ import javax.swing.table.DefaultTableModel;
 
 import com.hibernate.model.Categoria;
 import com.hibernate.model.Producto;
+import com.hibernate.model.Proveedor;
 import com.toedter.calendar.JCalendar;
 import com.hibernate.dao.CategoriaDAO;
 import com.hibernate.dao.ProductoDAO;
+import com.hibernate.dao.ProveedorDAO;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -114,6 +116,7 @@ public class App {
 		
 		ProductoDAO productoDAO = new ProductoDAO();
 		CategoriaDAO categoriaDAO = new CategoriaDAO();
+		ProveedorDAO proveedorDAO = new ProveedorDAO();
 
 		
 		frmAlmacnSupermercado = new JFrame();
@@ -131,6 +134,13 @@ public class App {
 		calendario.setBounds(384, 298, 180, 27);
 		frmAlmacnSupermercado.getContentPane().add(calendario);
 
+		
+		JComboBox comboBoxIdProveedor = new JComboBox();
+		comboBoxIdProveedor.addItem(new Proveedor(1, "Mercadona", 800500220, "España"));
+		comboBoxIdProveedor.addItem(new Proveedor(2, "Carrefour", 914908900, "Francia"));
+		comboBoxIdProveedor.setModel(new DefaultComboBoxModel(new String[] {"1: Mercadona", "2: Carrefour"}));
+		comboBoxIdProveedor.setBounds(384, 375, 180, 21);
+		frmAlmacnSupermercado.getContentPane().add(comboBoxIdProveedor);
 		
 		
 		
@@ -151,34 +161,9 @@ public class App {
 		model.addColumn("En Stock");
 		model.addColumn("Caducidad");
 		model.addColumn("Oferta");
+		model.addColumn("Proveedor");
 		
-		
-		
-				
-			
-				    
-				
-				
-//				List<Producto> productos = productoDAO.selectAllProducto();
-//				for (Producto p : productos) {
-//					precio = p.getPrecio();
-//				
-//				if (comboBoxOferta.getSelectedIndex() == 1) {
-//					List<Producto> productos = productoDAO.selectAllProducto();
-//					for (Producto p : productos) {
-//						precio = p.getPrecio() * 0.25;
-//					}
-//				} else if (comboBoxOferta.getSelectedIndex() == 2) {
-//					List<Producto> productos = productoDAO.selectAllProducto();
-//					for (Producto p : productos) {
-//						precio = p.getPrecio() * 0.50;
-//					}
-//				} else {
-//					List<Producto> productos = productoDAO.selectAllProducto();
-//					for (Producto p : productos) {
-//						precio = p.getPrecio() * 0.75;
-//					}
-//				}
+
 		JComboBox comboBoxOferta = new JComboBox();
 		comboBoxOferta.setModel(new DefaultComboBoxModel(new String[] {"Elige la oferta:", "25", "50", "75"}));
 		comboBoxOferta.setBounds(384, 337, 180, 21);
@@ -192,7 +177,7 @@ public class App {
 					model.setRowCount(0);
 					List<Producto> productos = productoDAO.selectAllBebidas();
 					for (Producto p : productos) {
-					    Object[] row = new Object[7];
+					    Object[] row = new Object[8];
 					    row[0] = p.getCodprod();
 					    row[1] = p.getCategoria().getNombre();
 					    row[2] = p.getNomProd();
@@ -208,6 +193,7 @@ public class App {
 					    }
 					    
 					    row[6] = p.getOferta();
+					    row[7] = p.getproveedor().getNombre();
 					    
 					    model.addRow(row);
 					   
@@ -218,7 +204,7 @@ public class App {
 					model.setRowCount(0);
 					List<Producto> productos = productoDAO.selectAllCarnes();
 					for (Producto p : productos) {
-					    Object[] row = new Object[7];
+					    Object[] row = new Object[8];
 					    row[0] = p.getCodprod();
 					    row[1] = p.getCategoria().getNombre();
 					    row[2] = p.getNomProd();
@@ -234,6 +220,7 @@ public class App {
 					    }
 					    
 					    row[6] = p.getOferta();
+					    row[7] = p.getproveedor().getNombre();
 					
 					    model.addRow(row);
 
@@ -243,7 +230,7 @@ public class App {
 					model.setRowCount(0);
 					List<Producto> productos = productoDAO.selectAllPescados();
 					for (Producto p : productos) {
-					    Object[] row = new Object[7];
+					    Object[] row = new Object[8];
 					    row[0] = p.getCodprod();
 					    row[1] = p.getCategoria().getNombre();
 					    row[2] = p.getNomProd();
@@ -259,6 +246,7 @@ public class App {
 					    }
 					    
 					    row[6] = p.getOferta();
+					    row[7] = p.getproveedor().getNombre();
 					    
 					    model.addRow(row);
 					   
@@ -287,7 +275,7 @@ public class App {
 					model.setRowCount(0);
 					List<Producto> productos = productoDAO.selectAllProducto();
 					for (Producto p : productos) {
-					    Object[] row = new Object[7];
+					    Object[] row = new Object[8];
 					    row[0] = p.getCodprod();
 					    row[1] = p.getCategoria().getNombre();
 					    row[2] = p.getNomProd();
@@ -303,6 +291,7 @@ public class App {
 					    }
 			        	
 					    row[6] = p.getOferta();
+					    row[7] = p.getproveedor().getNombre();
 					    
 					    model.addRow(row);
 
@@ -320,7 +309,7 @@ public class App {
 					model.setRowCount(0);
 					List<Producto> productos = productoDAO.selectProductoSinStock();
 					for (Producto p : productos) {
-					    Object[] row = new Object[7];
+					    Object[] row = new Object[8];
 					    row[0] = p.getCodprod();
 					    row[1] = p.getCategoria().getNombre();
 					    row[2] = p.getNomProd();
@@ -336,6 +325,7 @@ public class App {
 					    }
 					    
 					    row[6] = p.getOferta();
+					    row[7] = p.getproveedor().getNombre();
 					    
 					    model.addRow(row);
 					   
@@ -348,7 +338,7 @@ public class App {
 					model.setRowCount(0);
 					List<Producto> productos = productoDAO.selectProductosCaducados(hoy);
 					for (Producto p : productos) {
-					    Object[] row = new Object[7];
+					    Object[] row = new Object[8];
 					    row[0] = p.getCodprod();
 					    row[1] = p.getCategoria().getNombre();
 					    row[2] = p.getNomProd();
@@ -364,6 +354,7 @@ public class App {
 					    }
 					    
 					    row[6] = p.getOferta();
+					    row[7] = p.getproveedor().getNombre();
 					    
 					    model.addRow(row);
 					}
@@ -386,7 +377,7 @@ public class App {
 				int index = table.getSelectedRow();
 				if (index != -1) {
 					DefaultTableModel model = (DefaultTableModel) table.getModel();
-				    if (model instanceof DefaultTableModel && model.getColumnCount() == 7) {
+				    if (model instanceof DefaultTableModel && model.getColumnCount() == 8) {
 				        textFieldId.setText(model.getValueAt(index, 0).toString());
 				        comboBoxCat.setToolTipText(model.getValueAt(index, 1).toString());
 				        textFieldNomProd.setText(model.getValueAt(index, 2).toString());
@@ -417,22 +408,8 @@ public class App {
 				        }
 				        
 				        comboBoxOferta.setToolTipText(model.getValueAt(index, 6).toString());
+				        comboBoxIdProveedor.setToolTipText(model.getValueAt(index, 7).toString());
 				        
-//				        try {
-//				        	String fechaString = model.getValueAt(index, 5).toString();
-//						    
-//					        DateTimeFormatter formatoFecha = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-//					        
-//				        	LocalDate fecha = LocalDate.parse(fechaString, formatoFecha);
-//				        	
-//				        	SimpleDateFormat formatoFechaChooser = new SimpleDateFormat("dd/MM/yyyy");
-//				        	calendario.setDateFormatString("dd/MM/yyyy");
-//				            calendario.setDate(formatoFechaChooser.parse(formatoFechaChooser.format(java.sql.Date.valueOf(fecha))));
-//
-//				        	calendario.setDate(java.sql.Date.valueOf(fecha));
-//				        } catch (Exception s) {
-//				            
-//				        }
 				    }
 				 }
 			}
@@ -478,9 +455,14 @@ public class App {
 			            break;
 			    }
 		        
+		        String opcionSeleccionadaProv = (String) comboBoxIdProveedor.getSelectedItem();
+		        String[] partesProv = opcionSeleccionadaProv.split(": ");
+		        int indexProv = Integer.parseInt(partesProv[0].trim());
+		        Proveedor pr = proveedorDAO.selectProveedorById(indexProv);
+		        
 				Producto producto = new Producto(textFieldNomProd.getText(), c,
                         precioInicial,
-                        Integer.parseInt(textFieldEnStock.getText()), caducidad, precioConOferta); 
+                        Integer.parseInt(textFieldEnStock.getText()), caducidad, precioConOferta, pr); 
 					productoDAO.insertProducto(producto);
 		        
 //		        Matcher matNom = patNom.matcher(TextFieldNomProd.getText());
@@ -511,7 +493,7 @@ public class App {
 					model.setRowCount(0);
 					List<Producto> productos = productoDAO.selectAllProducto();
 					for (Producto p : productos) {
-					    Object[] row = new Object[7];
+					    Object[] row = new Object[8];
 					    row[0] = p.getCodprod();
 					    row[1] = p.getCategoria().getNombre();
 					    row[2] = p.getNomProd();
@@ -526,11 +508,12 @@ public class App {
 					    }
 					    
 					    row[6] = p.getOferta();
+					    row[7] = p.getproveedor().getNombre();
 					    
 					    model.addRow(row);
 					}
 		    }});
-		btnGuardarProd.setBounds(206, 399, 122, 21);
+		btnGuardarProd.setBounds(210, 425, 122, 21);
 		frmAlmacnSupermercado.getContentPane().add(btnGuardarProd);
 		
 		JButton btnActualizarProd = new JButton("ACTUALIZAR");
@@ -581,13 +564,19 @@ public class App {
 			    }
 		        
 		        productoActualizar.setOferta(precioConOferta);
+		        
+		        String opcionSeleccionadaProv = (String) comboBoxIdProveedor.getSelectedItem();
+		        String[] partesProv = opcionSeleccionadaProv.split(": ");
+		        int indexProv = Integer.parseInt(partesProv[0].trim());
+		        Proveedor pr = proveedorDAO.selectProveedorById(indexProv);
+		        productoActualizar.setProveedor(pr);
 		        productoDAO.updateProducto(productoActualizar);
 		        JOptionPane.showMessageDialog(null, "Producto actualizado");
 		        limpiarTexto();
 		        model.setRowCount(0);
 				List<Producto> productos = productoDAO.selectAllProducto();
 				for (Producto p : productos) {
-				    Object[] row = new Object[7];
+				    Object[] row = new Object[8];
 				    row[0] = p.getCodprod();
 				    row[1] = p.getCategoria().getNombre();
 				    row[2] = p.getNomProd();
@@ -602,11 +591,12 @@ public class App {
 				    }
 				    
 				    row[6] = p.getOferta();
+				    row[7] = p.getproveedor().getNombre();
 				    
 				    model.addRow(row);
 		    }
 		}});
-		btnActualizarProd.setBounds(363, 399, 122, 21);
+		btnActualizarProd.setBounds(367, 425, 122, 21);
 		frmAlmacnSupermercado.getContentPane().add(btnActualizarProd);
 		
 		
@@ -620,7 +610,7 @@ public class App {
 				model.setRowCount(0);
 				List<Producto> productos = productoDAO.selectAllProducto();
 				for (Producto p : productos) {
-				    Object[] row = new Object[7];
+				    Object[] row = new Object[8];
 				    row[0] = p.getCodprod();
 				    row[1] = p.getCategoria().getNombre();
 				    row[2] = p.getNomProd();
@@ -628,10 +618,11 @@ public class App {
 				    row[4] = p.getStock();
 				    row[5] = p.getCaducidad();
 				    row[6] = p.getOferta();
+				    row[7] = p.getproveedor();
 				    model.addRow(row);
 			}
 		}});
-		btnBorrarProd.setBounds(526, 399, 122, 21);
+		btnBorrarProd.setBounds(530, 425, 122, 21);
 		frmAlmacnSupermercado.getContentPane().add(btnBorrarProd);
 		
 		JLabel lblCategoria = new JLabel("ELIGE LA OPCIÓN:");
@@ -690,6 +681,10 @@ public class App {
 		JLabel lblCaducidad = new JLabel("CADUCIDAD:");
 		lblCaducidad.setBounds(269, 298, 105, 15);
 		frmAlmacnSupermercado.getContentPane().add(lblCaducidad);
+		
+		JLabel lblProveedor = new JLabel("PROVEEDOR:");
+		lblProveedor.setBounds(269, 375, 70, 13);
+		frmAlmacnSupermercado.getContentPane().add(lblProveedor);
 		
 		
 		

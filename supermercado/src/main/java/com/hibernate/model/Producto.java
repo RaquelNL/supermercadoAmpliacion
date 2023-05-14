@@ -40,11 +40,15 @@ public class Producto {
 	@Column(name="oferta")
 	private Double oferta;
 	
+	@ManyToOne
+	@JoinColumn(name = "proveedor_id", referencedColumnName = "id", nullable = false)
+	private Proveedor proveedor;
+	
 	public Producto() {
 		
 	}
 	
-	public Producto(String nomProd, Categoria categoria, double precio, int stock, LocalDate caducidad, Double oferta) {
+	public Producto(String nomProd, Categoria categoria, double precio, int stock, LocalDate caducidad, Double oferta, Proveedor proveedor) {
 		super();
 		this.nomProd = nomProd;
 		this.categoria = categoria;
@@ -52,7 +56,7 @@ public class Producto {
 		this.stock = stock;
 		this.caducidad = caducidad;
 		this.oferta = oferta;
-
+		this.proveedor = proveedor;
 		
 	}
 
@@ -110,6 +114,14 @@ public class Producto {
 
 	public void setOferta(Double oferta) {
 		this.oferta = oferta;
+	}
+	
+	public Proveedor getproveedor() {
+		return proveedor;
+	}
+
+	public void setProveedor(Proveedor proveedor) {
+		this.proveedor = proveedor;
 	}
 	
 
