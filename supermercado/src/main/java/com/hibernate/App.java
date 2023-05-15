@@ -452,102 +452,90 @@ public class App {
  */
 		JButton btnGuardarProd = new JButton("GUARDAR");
 		btnGuardarProd.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				
-				String opcionSeleccionada = (String) comboBoxIdCat.getSelectedItem();
+		    @Override
+		    public void mouseClicked(MouseEvent e) {
+		        String opcionSeleccionada = (String) comboBoxIdCat.getSelectedItem();
 		        String[] partes = opcionSeleccionada.split(": ");
 		        int index = Integer.parseInt(partes[0].trim());
 		        Categoria c = categoriaDAO.selectcategoriaById(index);
-		        
+
 		        Date fecha = calendario.getDate();
-		        
+
 		        LocalDate caducidad = null;
-		        
+
 		        if (fecha != null) {
-		        	 calendario.setDateFormatString("dd/MM/yyyy");
-				     caducidad = fecha.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+		            calendario.setDateFormatString("dd/MM/yyyy");
+		            caducidad = fecha.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 		        }
-		        
+
 		        Double precioConOferta = null;
 		        double precioInicial = Double.parseDouble(textFieldPrecio.getText());
-		        //String ofertaSeleccionada = (String) comboBoxOferta.getSelectedItem();	
-		        
+
 		        switch (comboBoxOferta.getSelectedIndex()) {
-			        case 1:
-			        	precioConOferta = precioInicial - (precioInicial * 0.25);
-			            break;
-			            
-			        case 2:
-			        	precioConOferta = precioInicial - (precioInicial * 0.50);
-			            break;
-			            
-			        case 3:
-			        	precioConOferta = precioInicial - (precioInicial * 0.75);
-			            break;
-			    }
-		        
+		            case 1:
+		                precioConOferta = precioInicial - (precioInicial * 0.25);
+		                break;
+
+		            case 2:
+		                precioConOferta = precioInicial - (precioInicial * 0.50);
+		                break;
+
+		            case 3:
+		                precioConOferta = precioInicial - (precioInicial * 0.75);
+		                break;
+		        }
+
 		        String opcionSeleccionadaProv = (String) comboBoxIdProveedor.getSelectedItem();
 		        String[] partesProv = opcionSeleccionadaProv.split(": ");
 		        int indexProv = Integer.parseInt(partesProv[0].trim());
 		        Proveedor pr = proveedorDAO.selectProveedorById(indexProv);
-		        
-				Producto producto = new Producto(textFieldNomProd.getText(), c,
-                        precioInicial,
-                        Integer.parseInt(textFieldEnStock.getText()), caducidad, precioConOferta, pr); 
-					productoDAO.insertProducto(producto);
-		        
-//		        Matcher matNom = patNom.matcher(TextFieldNomProd.getText());
-//		    	Matcher matPrecio = patPrecio.matcher(TextFieldPrecio.getText());
-//		    	Matcher matStock = patStock.matcher(TextFieldEnStock.getText());
-//		    	
-//		    	if (!matNom.matches()) {
-//		    		JOptionPane.showMessageDialog(null, "El nombre es incorrecto");
-//		    	} else if (!patPrecio.matches()) {
-//		    		JOptionPane.showMessageDialog(null, "El precio es incorrecto");
-//		    	} else if (!patStock.matches()) {
-//		    		JOptionPane.showMessageDialog(null, "El stock es incorrecto");
-//		    	} else {
-//
-//		    		try {
-//		    			LocalDate fechaNac = LocalDate
-//		    					.parse(textFieldDob2.getText() + "-" + textFieldDob1.getText() + "-" + dobTextField.getText());
-//		    			
-//		    			if (!(fechaNac.getYear() >= 18)) {
-//		    				//Poner la fecha en rojo
-//		    			} else {
-//		    				DateTimeFormatter fechaFormateada = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-//
-//		    			}
-		        
-					JOptionPane.showMessageDialog(null, "Producto añadido");
-					limpiarTexto();
-					model.setRowCount(0);
-					List<Producto> productos = productoDAO.selectAllProducto();
-					for (Producto p : productos) {
-					    Object[] row = new Object[8];
-					    row[0] = p.getCodprod();
-					    row[1] = p.getCategoria().getNombre();
-					    row[2] = p.getNomProd();
-					    row[3] = p.getPrecio();
-					    row[4] = p.getStock();
-					    LocalDate caducidadSQL = p.getCaducidad();
-					    row[5] = caducidadSQL;
-					    
-					    if(caducidadSQL != null) {
-					    	String caducidadFormat = formatearFecha(caducidadSQL);
-						    row[5] = caducidadFormat;
-					    }
-					    
-					    row[6] = p.getOferta();
-					    row[7] = p.getproveedor().getNombre();
-					    
-					    model.addRow(row);
-					}
-		    }});
+
+		        Matcher matNom = patNom.matcher(textFieldNomProd.getText());
+		        Matcher matPrecio = patPrecio.matcher(textFieldPrecio.getText());
+		        Matcher matStock = patStock.matcher(textFieldEnStock.getText());
+
+		        if (!matNom.matches()) {
+		            JOptionPane.showMessageDialog(null, "El nombre es incorrecto");
+		        } else if (!matPrecio.matches()) {
+		            JOptionPane.showMessageDialog(null, "El precio es incorrecto");
+		        } else if (!matStock.matches()) {
+		            JOptionPane.showMessageDialog(null, "El stock es incorrecto");
+		        } else {
+		            Producto producto = new Producto(textFieldNomProd.getText(), c,
+		                    precioInicial,
+		                    Integer.parseInt(textFieldEnStock.getText()), caducidad, precioConOferta, pr);
+		            productoDAO.insertProducto(producto);
+
+		            JOptionPane.showMessageDialog(null, "Producto añadido");
+		            limpiarTexto();
+		            model.setRowCount(0);
+		            List<Producto> productos = productoDAO.selectAllProducto();
+		            for (Producto p : productos) {
+		                Object[] row = new Object[8];
+		                row[0] = p.getCodprod();
+		                row[1] = p.getCategoria().getNombre();
+		                row[2] = p.getNomProd();
+		                row[3] = p.getPrecio();
+		                row[4] = p.getStock();
+		                LocalDate caducidadSQL = p.getCaducidad();
+		                row[5] = caducidadSQL;
+
+		                if (caducidadSQL != null) {
+		                    String caducidadFormat = formatearFecha(caducidadSQL);
+		                    row[5] = caducidadFormat;
+		                }
+
+		                row[6] = p.getOferta();
+		                row[7] = p.getproveedor().getNombre();
+
+		                model.addRow(row);
+		            }
+		        }
+		    }
+		});
 		btnGuardarProd.setBounds(210, 425, 122, 21);
 		frmAlmacnSupermercado.getContentPane().add(btnGuardarProd);
-		
+
 		
 /**
 * Botón de actualizar producto dónde se llama al constructor de Producto para añadir las opciones seleccionadas en los componentes de Swing	
