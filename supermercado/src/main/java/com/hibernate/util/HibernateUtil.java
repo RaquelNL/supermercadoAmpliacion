@@ -11,6 +11,7 @@ import org.hibernate.service.ServiceRegistry;
 import com.hibernate.model.Producto;
 import com.hibernate.model.Proveedor;
 import com.hibernate.model.Categoria;
+import com.hibernate.model.Estado;
 
 public class HibernateUtil {
 
@@ -34,6 +35,7 @@ public class HibernateUtil {
 				configuration.addAnnotatedClass(Producto.class);
 				configuration.addAnnotatedClass(Categoria.class);
 				configuration.addAnnotatedClass(Proveedor.class);
+				configuration.addAnnotatedClass(Estado.class);
 				
 				ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder().applySettings(configuration.getProperties()).build();
 				
