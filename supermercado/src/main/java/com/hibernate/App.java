@@ -47,6 +47,8 @@ import javax.swing.DefaultComboBoxModel;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import com.toedter.calendar.JDateChooser;
+import javax.swing.JCheckBox;
+import javax.swing.JTextArea;
 
 /**
  * Clase principal de la aplicación de supermercado
@@ -154,7 +156,7 @@ public class App {
 		frmAlmacnSupermercado.getContentPane().add(lblEligeLaCategoria);
 
 		JDateChooser calendario = new JDateChooser();
-		calendario.setBounds(384, 298, 180, 27);
+		calendario.setBounds(358, 228, 180, 27);
 		frmAlmacnSupermercado.getContentPane().add(calendario);
 
 		
@@ -162,7 +164,7 @@ public class App {
 		comboBoxIdProveedor.addItem(new Proveedor(1, "Mercadona", 800500220, "España"));
 		comboBoxIdProveedor.addItem(new Proveedor(2, "Carrefour", 914908900, "Francia"));
 		comboBoxIdProveedor.setModel(new DefaultComboBoxModel(new String[] {"1: Mercadona", "2: Carrefour"}));
-		comboBoxIdProveedor.setBounds(384, 375, 180, 21);
+		comboBoxIdProveedor.setBounds(700, 259, 180, 27);
 		frmAlmacnSupermercado.getContentPane().add(comboBoxIdProveedor);
 		
 		
@@ -172,7 +174,7 @@ public class App {
 		comboBoxIdCat.addItem(new Categoria(2, "Carnes"));
 		comboBoxIdCat.addItem(new Categoria(3, "Pescados"));
 		comboBoxIdCat.setModel(new DefaultComboBoxModel(new String[] {"Selecciona:", "1: Bebidas", "2: Carnes", "3: Pescados"}));
-		comboBoxIdCat.setBounds(384, 187, 180, 21);
+		comboBoxIdCat.setBounds(358, 189, 180, 27);
 		frmAlmacnSupermercado.getContentPane().add(comboBoxIdCat);
 		
 		
@@ -189,7 +191,7 @@ public class App {
 
 		JComboBox comboBoxOferta = new JComboBox();
 		comboBoxOferta.setModel(new DefaultComboBoxModel(new String[] {"Selecciona:", "25", "50", "75"}));
-		comboBoxOferta.setBounds(384, 337, 180, 21);
+		comboBoxOferta.setBounds(358, 261, 180, 27);
 		frmAlmacnSupermercado.getContentPane().add(comboBoxOferta);
 		
 		
@@ -533,7 +535,7 @@ public class App {
 		        }
 		    }
 		});
-		btnGuardarProd.setBounds(210, 425, 122, 21);
+		btnGuardarProd.setBounds(362, 355, 122, 21);
 		frmAlmacnSupermercado.getContentPane().add(btnGuardarProd);
 
 		
@@ -621,7 +623,7 @@ public class App {
 				    model.addRow(row);
 		    }
 		}});
-		btnActualizarProd.setBounds(367, 425, 122, 21);
+		btnActualizarProd.setBounds(519, 355, 122, 21);
 		frmAlmacnSupermercado.getContentPane().add(btnActualizarProd);
 		
 		
@@ -650,7 +652,7 @@ public class App {
 				    model.addRow(row);
 			}
 		}});
-		btnBorrarProd.setBounds(530, 425, 122, 21);
+		btnBorrarProd.setBounds(682, 355, 122, 21);
 		frmAlmacnSupermercado.getContentPane().add(btnBorrarProd);
 		
 		JLabel lblCategoria = new JLabel("ELIGE LA OPCIÓN:");
@@ -660,59 +662,68 @@ public class App {
 		
 		
 		JLabel lblOferta = new JLabel("OFERTA:");
-		lblOferta.setBounds(269, 342, 157, 13);
+		lblOferta.setBounds(245, 265, 157, 13);
 		frmAlmacnSupermercado.getContentPane().add(lblOferta);
 		
 		
 		JLabel lblIdProd = new JLabel("ID:");
-		lblIdProd.setBounds(271, 157, 70, 15);
+		lblIdProd.setBounds(245, 159, 70, 15);
 		frmAlmacnSupermercado.getContentPane().add(lblIdProd);
 		
 		JLabel lblCat = new JLabel("CATEGORÍA:");
-		lblCat.setBounds(271, 190, 114, 15);
+		lblCat.setBounds(245, 192, 114, 15);
 		frmAlmacnSupermercado.getContentPane().add(lblCat);
 		
 		JLabel lblNomProd = new JLabel("NOMBRE:");
-		lblNomProd.setBounds(271, 217, 70, 15);
+		lblNomProd.setBounds(608, 157, 70, 15);
 		frmAlmacnSupermercado.getContentPane().add(lblNomProd);
 		
 		JLabel lblPrecio = new JLabel("PRECIO:");
-		lblPrecio.setBounds(271, 244, 70, 15);
+		lblPrecio.setBounds(608, 190, 70, 15);
 		frmAlmacnSupermercado.getContentPane().add(lblPrecio);
 		
 		JLabel lblEnStock = new JLabel("EN STOCK:");
-		lblEnStock.setBounds(271, 271, 93, 15);
+		lblEnStock.setBounds(608, 229, 93, 15);
 		frmAlmacnSupermercado.getContentPane().add(lblEnStock);
 		
 		textFieldId = new JTextField();
 		textFieldId.setEnabled(false);
 		textFieldId.setEditable(false);
-		textFieldId.setBounds(384, 155, 180, 27);
+		textFieldId.setBounds(358, 157, 180, 27);
 		frmAlmacnSupermercado.getContentPane().add(textFieldId);
 		textFieldId.setColumns(10);
 		
 		textFieldNomProd = new JTextField();
 		textFieldNomProd.setColumns(10);
-		textFieldNomProd.setBounds(384, 217, 180, 27);
+		textFieldNomProd.setBounds(680, 151, 180, 27);
 		frmAlmacnSupermercado.getContentPane().add(textFieldNomProd);
 		
 		textFieldPrecio = new JTextField();
 		textFieldPrecio.setColumns(10);
-		textFieldPrecio.setBounds(384, 242, 180, 27);
+		textFieldPrecio.setBounds(680, 184, 180, 27);
 		frmAlmacnSupermercado.getContentPane().add(textFieldPrecio);
 		
 		textFieldEnStock = new JTextField();
 		textFieldEnStock.setColumns(10);
-		textFieldEnStock.setBounds(384, 267, 180, 27);
+		textFieldEnStock.setBounds(690, 223, 180, 27);
 		frmAlmacnSupermercado.getContentPane().add(textFieldEnStock);
 		
 		JLabel lblCaducidad = new JLabel("CADUCIDAD:");
-		lblCaducidad.setBounds(269, 298, 105, 15);
+		lblCaducidad.setBounds(245, 231, 105, 15);
 		frmAlmacnSupermercado.getContentPane().add(lblCaducidad);
 		
 		JLabel lblProveedor = new JLabel("PROVEEDOR:");
-		lblProveedor.setBounds(269, 375, 82, 13);
+		lblProveedor.setBounds(608, 263, 82, 13);
 		frmAlmacnSupermercado.getContentPane().add(lblProveedor);
+		
+		JLabel lblIncidencia = new JLabel("INCIDENCIA:");
+		lblIncidencia.setBounds(245, 300, 93, 15);
+		frmAlmacnSupermercado.getContentPane().add(lblIncidencia);
+		
+		JComboBox comboBox = new JComboBox();
+		comboBox.setModel(new DefaultComboBoxModel(new String[] {"Selecciona:", "1: Roto", "2: Caducado", "3: Defectuoso"}));
+		comboBox.setBounds(358, 295, 180, 24);
+		frmAlmacnSupermercado.getContentPane().add(comboBox);
 		
 		
 		
